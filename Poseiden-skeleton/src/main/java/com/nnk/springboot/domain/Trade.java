@@ -264,4 +264,12 @@ public class Trade {
 		this.side = side;
 	}
 
+	// Constructor with account and type args
+	public Trade(@NotBlank(message = "Account is mandatory") String account,
+			@NotBlank(message = "Type is mandatory") String type) {
+		super();
+		this.account = account;
+		this.type = type;
+	}
+
 }

@@ -262,4 +262,14 @@ public class BidList {
 		this.side = side;
 	}
 
+	// Constructor with account, type and bidQuantity args
+	public BidList(@NotBlank(message = "Account is mandatory") String account,
+			@NotBlank(message = "Type is mandatory") String type,
+			@NotBlank(message = "Bid Quantity is mandatory") Double bidQuantity) {
+		super();
+		this.account = account;
+		this.type = type;
+		this.bidQuantity = bidQuantity;
+	}
+
 }

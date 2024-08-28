@@ -95,4 +95,12 @@ public class CurvePoint {
 		this.creationDate = creationDate;
 	}
 
+	// Constructor with curveId, term and value args
+	public CurvePoint(@NotBlank(message = "Curve ID is mandatory") Integer curveId, Double term, Double value) {
+		super();
+		this.curveId = curveId;
+		this.term = term;
+		this.value = value;
+	}
+
 }

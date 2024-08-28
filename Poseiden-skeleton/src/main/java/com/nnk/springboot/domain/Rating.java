@@ -87,4 +87,16 @@ public class Rating {
 		this.orderNumber = orderNumber;
 	}
 
+	// Constructor with moodysRating, sandRating, fitchRating and orderNumber args
+	public Rating(@NotBlank(message = "Moody's Rating is mandatory") String moodysRating,
+			@NotBlank(message = "S & P Rating is mandatory") String sandPRating,
+			@NotBlank(message = "Fitch Rating is mandatory") String fitchRating,
+			@NotBlank(message = "Order number is mandatory") Integer orderNumber) {
+		super();
+		this.moodysRating = moodysRating;
+		this.sandPRating = sandPRating;
+		this.fitchRating = fitchRating;
+		this.orderNumber = orderNumber;
+	}
+
 }
