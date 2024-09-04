@@ -7,11 +7,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "rating")
 public class Rating {
-	// TODO: Map columns in data table RATING with corresponding java fields
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,7 +26,7 @@ public class Rating {
 	@NotBlank(message = "Fitch Rating is mandatory")
 	private String fitchRating;
 
-	@NotBlank(message = "Order number is mandatory")
+	@NotNull(message = "Order number is mandatory")
 	private Integer orderNumber;
 
 	// GETTERS AND SETTERS
