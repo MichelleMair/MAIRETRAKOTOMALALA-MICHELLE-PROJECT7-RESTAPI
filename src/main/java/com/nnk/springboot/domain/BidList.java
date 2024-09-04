@@ -17,7 +17,7 @@ public class BidList {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer BidListId;
+	private Integer bidListId;
 
 	@NotBlank(message = "Account is mandatory")
 	private String account;
@@ -51,11 +51,11 @@ public class BidList {
 	// GETTERS AND SETTERS
 
 	public Integer getBidListId() {
-		return BidListId;
+		return bidListId;
 	}
 
 	public void setBidListId(Integer bidListId) {
-		BidListId = bidListId;
+		this.bidListId = bidListId;
 	}
 
 	public String getAccount() {
@@ -239,7 +239,7 @@ public class BidList {
 			String trader, String book, String creationName, Timestamp creationDate, String revisionName,
 			Timestamp revisionDate, String dealName, String dealType, String sourceListId, String side) {
 		super();
-		BidListId = bidListId;
+		this.bidListId = bidListId;
 		this.account = account;
 		this.type = type;
 		this.bidQuantity = bidQuantity;

@@ -25,10 +25,11 @@ public class SecurityConfig {
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http.authorizeHttpRequests((requests) -> requests.requestMatchers("/rating/**", "/public/**", "/css/**")
-				.permitAll().requestMatchers("/admin/**").hasRole("ADMIN").requestMatchers("/user/**").hasRole("USER")
-				.anyRequest().authenticated())
-				.formLogin((form) -> form.loginPage("/login").defaultSuccessUrl("/rating/list", true).permitAll())
+		http.authorizeHttpRequests(
+				(requests) -> requests.requestMatchers("/bidList/**", "/rating/**", "/public/**", "/css/**").permitAll()
+						.requestMatchers("/admin/**").hasRole("ADMIN").requestMatchers("/user/**").hasRole("USER")
+						.anyRequest().authenticated())
+				.formLogin((form) -> form.loginPage("/login").defaultSuccessUrl("/bidList/list", true).permitAll())
 				.logout((logout) -> logout.logoutUrl("/app-logout").logoutSuccessUrl("/login?logout").permitAll());
 		return http.build();
 	}
