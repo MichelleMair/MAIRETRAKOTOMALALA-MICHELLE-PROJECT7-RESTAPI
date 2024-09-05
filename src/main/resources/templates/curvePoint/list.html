@@ -17,8 +17,9 @@
 			<a href="/ruleName/list">Rule</a>
 		</div>
 		<div class="col-6 text-right">
-			Logged in user: <b th:inline="text"  class="user"> [[${#httpServletRequest.remoteUser}]] </b>
-			<form th:action="@{/app-logout}" method="POST">
+			Logged in user:  <b th:unless="${#authentication}"  class="user">Guest</b>
+			<b th:if="${#authentication}" th:text="${#authentication.name}">[User]</b>
+			<form th:action="@{/app-logout}" method="POST" th:if="${#authentication}">
 				<input type="submit" value="Logout"/>
 			</form>
 		</div>

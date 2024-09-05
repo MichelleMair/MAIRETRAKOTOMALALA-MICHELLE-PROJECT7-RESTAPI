@@ -60,6 +60,7 @@ public class BidListController {
 	@PostMapping("/bidList/update/{id}")
 	public String updateBid(@PathVariable("id") Integer id, @Valid BidList bidList, BindingResult result, Model model) {
 		if (result.hasErrors()) {
+			model.addAttribute("bidList", bidList);
 			return "bidList/update";
 		}
 		bidList.setBidListId(id);

@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "curvepoint")
@@ -19,7 +20,7 @@ public class CurvePoint {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 
-	@NotBlank(message = "Curve ID is mandatory")
+	@NotNull(message = "Curve ID is mandatory")
 	private Integer curveId;
 
 	private Timestamp asOfDate;

@@ -8,13 +8,14 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 @Entity
 @Table(name = "rating")
 public class Rating {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
 	@NotBlank(message = "Moody's Rating is mandatory")
@@ -27,6 +28,7 @@ public class Rating {
 	private String fitchRating;
 
 	@NotNull(message = "Order number is mandatory")
+	@Positive(message = "Order number must be positive")
 	private Integer orderNumber;
 
 	// GETTERS AND SETTERS
