@@ -2,8 +2,6 @@ package com.nnk.springboot.domain;
 
 import java.sql.Timestamp;
 
-import javax.validation.constraints.NotBlank;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,21 +15,22 @@ public class CurvePoint {
 	// TODO: Map columns in data table CURVEPOINT with corresponding java fields
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
 	@NotNull(message = "Curve ID is mandatory")
-	private Integer curveId;
+	private Integer curve_id;
 
-	private Timestamp asOfDate;
+	private Timestamp as_of_date;
 
 	private Double term;
 
 	private Double value;
 
-	private Timestamp creationDate;
+	private Timestamp creation_date;
 
 	// GETTERS AND SETTERS
+
 	public Integer getId() {
 		return id;
 	}
@@ -40,20 +39,20 @@ public class CurvePoint {
 		this.id = id;
 	}
 
-	public Integer getCurveId() {
-		return curveId;
+	public Integer getCurve_id() {
+		return curve_id;
 	}
 
-	public void setCurveId(Integer curveId) {
-		this.curveId = curveId;
+	public void setCurve_id(Integer curve_id) {
+		this.curve_id = curve_id;
 	}
 
-	public Timestamp getAsOfDate() {
-		return asOfDate;
+	public Timestamp getAs_of_date() {
+		return as_of_date;
 	}
 
-	public void setAsOfDate(Timestamp asOfDate) {
-		this.asOfDate = asOfDate;
+	public void setAs_of_date(Timestamp as_of_date) {
+		this.as_of_date = as_of_date;
 	}
 
 	public Double getTerm() {
@@ -72,37 +71,36 @@ public class CurvePoint {
 		this.value = value;
 	}
 
-	public Timestamp getCreationDate() {
-		return creationDate;
+	public Timestamp getCreation_date() {
+		return creation_date;
 	}
 
-	public void setCreationDate(Timestamp creationDate) {
-		this.creationDate = creationDate;
+	public void setCreation_date(Timestamp creation_date) {
+		this.creation_date = creation_date;
+	}
+
+	// All args constructor
+	public CurvePoint(Integer id, @NotNull(message = "Curve ID is mandatory") Integer curve_id, Timestamp as_of_date,
+			Double term, Double value, Timestamp creation_date) {
+		super();
+		this.id = id;
+		this.curve_id = curve_id;
+		this.as_of_date = as_of_date;
+		this.term = term;
+		this.value = value;
+		this.creation_date = creation_date;
+	}
+
+	public CurvePoint(@NotNull(message = "Curve ID is mandatory") Integer curve_id, Double term, Double value) {
+		super();
+		this.curve_id = curve_id;
+		this.term = term;
+		this.value = value;
 	}
 
 	// No args constructor
 	public CurvePoint() {
 		super();
-	}
-
-	// All args constructor
-	public CurvePoint(Integer id, @NotBlank(message = "Curve ID is mandatory") Integer curveId, Timestamp asOfDate,
-			Double term, Double value, Timestamp creationDate) {
-		super();
-		this.id = id;
-		this.curveId = curveId;
-		this.asOfDate = asOfDate;
-		this.term = term;
-		this.value = value;
-		this.creationDate = creationDate;
-	}
-
-	// Constructor with curveId, term and value args
-	public CurvePoint(@NotBlank(message = "Curve ID is mandatory") Integer curveId, Double term, Double value) {
-		super();
-		this.curveId = curveId;
-		this.term = term;
-		this.value = value;
 	}
 
 }

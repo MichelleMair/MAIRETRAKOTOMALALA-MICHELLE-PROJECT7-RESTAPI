@@ -19,19 +19,19 @@ public class Rating {
 	private Integer id;
 
 	@NotBlank(message = "Moody's Rating is mandatory")
-	private String moodysRating;
+	private String moodys_rating;
 
 	@NotBlank(message = "S & P Rating is mandatory")
-	private String sandPRating;
+	private String sandprating;
 
 	@NotBlank(message = "Fitch Rating is mandatory")
-	private String fitchRating;
+	private String fitch_rating;
 
 	@NotNull(message = "Order number is mandatory")
 	@Positive(message = "Order number must be positive")
-	private Integer orderNumber;
+	private Integer order_number;
 
-	// GETTERS AND SETTERS
+	// GETTERS & SETTERS
 	public Integer getId() {
 		return id;
 	}
@@ -40,66 +40,65 @@ public class Rating {
 		this.id = id;
 	}
 
-	public String getMoodysRating() {
-		return moodysRating;
+	public String getMoodys_rating() {
+		return moodys_rating;
 	}
 
-	public void setMoodysRating(String moodysRating) {
-		this.moodysRating = moodysRating;
+	public void setMoodys_rating(String moodys_rating) {
+		this.moodys_rating = moodys_rating;
 	}
 
-	public String getSandPRating() {
-		return sandPRating;
+	public String getSandprating() {
+		return sandprating;
 	}
 
-	public void setSandPRating(String sandPRating) {
-		this.sandPRating = sandPRating;
+	public void setSandprating(String sandprating) {
+		this.sandprating = sandprating;
 	}
 
-	public String getFitchRating() {
-		return fitchRating;
+	public String getFitch_rating() {
+		return fitch_rating;
 	}
 
-	public void setFitchRating(String fitchRating) {
-		this.fitchRating = fitchRating;
+	public void setFitch_rating(String fitch_rating) {
+		this.fitch_rating = fitch_rating;
 	}
 
-	public Integer getOrderNumber() {
-		return orderNumber;
+	public Integer getOrder_number() {
+		return order_number;
 	}
 
-	public void setOrderNumber(Integer orderNumber) {
-		this.orderNumber = orderNumber;
+	public void setOrder_number(Integer order_number) {
+		this.order_number = order_number;
 	}
 
-	// No args constructor
-	public Rating() {
-		super();
-	}
-
-	// All args constructor
-	public Rating(Integer id, @NotBlank(message = "Moody's Rating is mandatory") String moodysRating,
-			@NotBlank(message = "S & P Rating is mandatory") String sandPRating,
-			@NotBlank(message = "Fitch Rating is mandatory") String fitchRating,
-			@NotBlank(message = "Order number is mandatory") Integer orderNumber) {
+	// ALL ARGS CONSTRUCTOR
+	public Rating(Integer id, @NotBlank(message = "Moody's Rating is mandatory") String moodys_rating,
+			@NotBlank(message = "S & P Rating is mandatory") String sandprating,
+			@NotBlank(message = "Fitch Rating is mandatory") String fitch_rating,
+			@NotNull(message = "Order number is mandatory") @Positive(message = "Order number must be positive") Integer order_number) {
 		super();
 		this.id = id;
-		this.moodysRating = moodysRating;
-		this.sandPRating = sandPRating;
-		this.fitchRating = fitchRating;
-		this.orderNumber = orderNumber;
+		this.moodys_rating = moodys_rating;
+		this.sandprating = sandprating;
+		this.fitch_rating = fitch_rating;
+		this.order_number = order_number;
 	}
 
-	// Constructor with moodysRating, sandRating, fitchRating and orderNumber args
-	public Rating(@NotBlank(message = "Moody's Rating is mandatory") String moodysRating,
-			@NotBlank(message = "S & P Rating is mandatory") String sandPRating,
-			@NotBlank(message = "Fitch Rating is mandatory") String fitchRating,
-			@NotBlank(message = "Order number is mandatory") Integer orderNumber) {
+	public Rating(@NotBlank(message = "Moody's Rating is mandatory") String moodys_rating,
+			@NotBlank(message = "S & P Rating is mandatory") String sandprating,
+			@NotBlank(message = "Fitch Rating is mandatory") String fitch_rating,
+			@NotNull(message = "Order number is mandatory") @Positive(message = "Order number must be positive") Integer order_number) {
 		super();
-		this.moodysRating = moodysRating;
-		this.sandPRating = sandPRating;
-		this.fitchRating = fitchRating;
-		this.orderNumber = orderNumber;
+		this.moodys_rating = moodys_rating;
+		this.sandprating = sandprating;
+		this.fitch_rating = fitch_rating;
+		this.order_number = order_number;
+	}
+
+	public Rating() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
 }

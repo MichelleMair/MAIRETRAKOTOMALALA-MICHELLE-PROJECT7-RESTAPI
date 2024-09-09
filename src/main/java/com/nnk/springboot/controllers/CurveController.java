@@ -22,56 +22,59 @@ public class CurveController {
 	private CurvePointService curvePointService;
 
 	// Find all Curve Point, add to model
-	@GetMapping("/curvePoint/list")
+	@GetMapping("/curvepoint/list")
 	public String home(Model model) {
-		model.addAttribute("curvePoints", curvePointService.getAllCurvePoints());
-		return "curvePoint/list";
+		model.addAttribute("curvepoints", curvePointService.getAllCurvePoints());
+		return "curvepoint/list";
 	}
 
-	@GetMapping("/curvePoint/add")
-	public String addCurveForm(CurvePoint curvePoint) {
-		return "curvePoint/add";
+	@GetMapping("/curvepoint/add")
+	public String addCurveForm(Model model) {
+		model.addAttribute("curvepoint", new CurvePoint());
+		return "curvepoint/add";
 	}
 
 	// Check data valid and save to db, after saving return Curve list
-	@PostMapping("/curvePoint/validate")
+	@PostMapping("/curvepoint/validate")
 	public String validate(@Valid CurvePoint curvePoint, BindingResult result, Model model) {
 		if (result.hasErrors()) {
-			return "curvePoint/add";
+			model.addAttribute("curvepoint", curvePoint);
+			return "curvepoint/add";
 		}
 		curvePointService.saveCurvePoint(curvePoint);
-		return "redirect:/curvePoint/list";
+		return "redirect:/curvepoint/list";
 	}
 
 	// Get CurvePoint by Id and to model then show to the form
-	@GetMapping("/curvePoint/update/{id}")
+	@GetMapping("/curvepoint/update/{id}")
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
 		Optional<CurvePoint> curvePoint = curvePointService.getCurvePointById(id);
 		if (curvePoint.isPresent()) {
-			model.addAttribute("curvePoint", curvePoint.get());
-			return "curvePoint/update";
+			model.addAttribute("curvepoint", curvePoint.get());
+			return "curvepoint/update";
 		} else {
-			return "redirect:/curvePoint/list";
+			return "redirect:/curvepoint/list";
 		}
 	}
 
 	// Check required fields, if valid call service to update Curve and return
 	// Curve list
-	@PostMapping("/curvePoint/update/{id}")
+	@PostMapping("/curvepoint/update/{id}")
 	public String updateCurvePoint(@PathVariable("id") Integer id, @Valid CurvePoint curvePoint, BindingResult result,
 			Model model) {
 		if (result.hasErrors()) {
-			return "curvePoint/update";
+			model.addAttribute("curvepoint", curvePoint);
+			return "curvepoint/update";
 		}
 		curvePoint.setId(id);
 		curvePointService.saveCurvePoint(curvePoint);
-		return "redirect:/curvePoint/list";
+		return "redirect:/curvepoint/list";
 	}
 
 	// Find Curve by Id and delete the Curve, return to Curve list
-	@GetMapping("/curvePoint/delete/{id}")
+	@GetMapping("/curvepoint/delete/{id}")
 	public String deleteBid(@PathVariable("id") Integer id, Model model) {
 		curvePointService.deleteCurvePoint(id);
-		return "redirect:/curvePoint/list";
+		return "redirect:/curvepoint/list";
 	}
 }

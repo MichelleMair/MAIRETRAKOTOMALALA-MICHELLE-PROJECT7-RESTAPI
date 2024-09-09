@@ -27,14 +27,14 @@ public class CurvePointTests {
 		// Save
 		curvePoint = curvePointRepository.save(curvePoint);
 		Assert.assertNotNull(curvePoint.getId());
-		Assert.assertEquals(10, (int) curvePoint.getCurveId());
+		Assert.assertEquals(10, (int) curvePoint.getCurve_id());
 		Assert.assertEquals(30d, curvePoint.getValue(), 0.01);
 
 		// Update
-		curvePoint.setCurveId(20);
+		curvePoint.setCurve_id(20);
 		curvePoint.setValue(40d);
 		curvePoint = curvePointRepository.save(curvePoint);
-		Assert.assertEquals(20, (int) curvePoint.getCurveId());
+		Assert.assertEquals(20, (int) curvePoint.getCurve_id());
 		Assert.assertEquals(40d, curvePoint.getValue(), 0.01);
 
 		// Find

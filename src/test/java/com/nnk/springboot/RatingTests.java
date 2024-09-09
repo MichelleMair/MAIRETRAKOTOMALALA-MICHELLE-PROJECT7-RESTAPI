@@ -1,7 +1,8 @@
 package com.nnk.springboot;
 
-import com.nnk.springboot.domain.Rating;
-import com.nnk.springboot.repositories.RatingRepository;
+import java.util.List;
+import java.util.Optional;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.List;
-import java.util.Optional;
+import com.nnk.springboot.domain.Rating;
+import com.nnk.springboot.repositories.RatingRepository;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -26,12 +27,12 @@ public class RatingTests {
 		// Save
 		rating = ratingRepository.save(rating);
 		Assert.assertNotNull(rating.getId());
-		Assert.assertTrue(rating.getOrderNumber() == 10);
+		Assert.assertTrue(rating.getOrder_number() == 10);
 
 		// Update
-		rating.setOrderNumber(20);
+		rating.setOrder_number(20);
 		rating = ratingRepository.save(rating);
-		Assert.assertTrue(rating.getOrderNumber() == 20);
+		Assert.assertTrue(rating.getOrder_number() == 20);
 
 		// Find
 		List<Rating> listResult = ratingRepository.findAll();

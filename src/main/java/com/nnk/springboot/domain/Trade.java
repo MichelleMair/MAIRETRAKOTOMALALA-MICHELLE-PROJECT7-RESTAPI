@@ -15,8 +15,8 @@ import jakarta.persistence.Table;
 public class Trade {
 	// TODO: Map columns in data table TRADE with corresponding java fields
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer tradeId;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer trade_id;
 
 	@NotBlank(message = "Account is mandatory")
 	private String account;
@@ -25,17 +25,15 @@ public class Trade {
 	private String type;
 
 	@NotBlank(message = "Buy Quantity is mandatory")
-	private Double buyQuantity;
+	private Double buy_quantity;
 
-	private Double sellQuantity;
+	private Double sell_quantity;
 
-	private Double buyPrice;
+	private Double buy_price;
 
-	private Double sellPrice;
+	private Double sell_price;
 
-	private String benchmark;
-
-	private Timestamp tradeDate;
+	private Timestamp trade_date;
 
 	private String security;
 
@@ -43,30 +41,33 @@ public class Trade {
 
 	private String trader;
 
+	private String benchmark;
+
 	private String book;
 
-	private String creationName;
+	private String creation_name;
 
-	private Timestamp creationDate;
+	private Timestamp creation_date;
 
-	private String revisionName;
+	private String revision_name;
 
-	private Timestamp revisionDate;
+	private Timestamp revision_date;
 
-	private String dealName;
+	private String deal_name;
 
-	private String dealType;
+	private String deal_type;
 
-	private String sourceListId;
+	private String sourcelist_id;
 
 	private String side;
 
-	public Integer getTradeId() {
-		return tradeId;
+	// GETTERS & SETTERS
+	public Integer getTrade_id() {
+		return trade_id;
 	}
 
-	public void setTradeId(Integer tradeId) {
-		this.tradeId = tradeId;
+	public void setTrade_id(Integer trade_id) {
+		this.trade_id = trade_id;
 	}
 
 	public String getAccount() {
@@ -85,52 +86,44 @@ public class Trade {
 		this.type = type;
 	}
 
-	public Double getBuyQuantity() {
-		return buyQuantity;
+	public Double getBuy_quantity() {
+		return buy_quantity;
 	}
 
-	public void setBuyQuantity(Double buyQuantity) {
-		this.buyQuantity = buyQuantity;
+	public void setBuy_quantity(Double buy_quantity) {
+		this.buy_quantity = buy_quantity;
 	}
 
-	public Double getSellQuantity() {
-		return sellQuantity;
+	public Double getSell_quantity() {
+		return sell_quantity;
 	}
 
-	public void setSellQuantity(Double sellQuantity) {
-		this.sellQuantity = sellQuantity;
+	public void setSell_quantity(Double sell_quantity) {
+		this.sell_quantity = sell_quantity;
 	}
 
-	public Double getBuyPrice() {
-		return buyPrice;
+	public Double getBuy_price() {
+		return buy_price;
 	}
 
-	public void setBuyPrice(Double buyPrice) {
-		this.buyPrice = buyPrice;
+	public void setBuy_price(Double buy_price) {
+		this.buy_price = buy_price;
 	}
 
-	public Double getSellPrice() {
-		return sellPrice;
+	public Double getSell_price() {
+		return sell_price;
 	}
 
-	public void setSellPrice(Double sellPrice) {
-		this.sellPrice = sellPrice;
+	public void setSell_price(Double sell_price) {
+		this.sell_price = sell_price;
 	}
 
-	public String getBenchmark() {
-		return benchmark;
+	public Timestamp getTrade_date() {
+		return trade_date;
 	}
 
-	public void setBenchmark(String benchmark) {
-		this.benchmark = benchmark;
-	}
-
-	public Timestamp getTradeDate() {
-		return tradeDate;
-	}
-
-	public void setTradeDate(Timestamp tradeDate) {
-		this.tradeDate = tradeDate;
+	public void setTrade_date(Timestamp trade_date) {
+		this.trade_date = trade_date;
 	}
 
 	public String getSecurity() {
@@ -157,6 +150,14 @@ public class Trade {
 		this.trader = trader;
 	}
 
+	public String getBenchmark() {
+		return benchmark;
+	}
+
+	public void setBenchmark(String benchmark) {
+		this.benchmark = benchmark;
+	}
+
 	public String getBook() {
 		return book;
 	}
@@ -165,60 +166,60 @@ public class Trade {
 		this.book = book;
 	}
 
-	public String getCreationName() {
-		return creationName;
+	public String getCreation_name() {
+		return creation_name;
 	}
 
-	public void setCreationName(String creationName) {
-		this.creationName = creationName;
+	public void setCreation_name(String creation_name) {
+		this.creation_name = creation_name;
 	}
 
-	public Timestamp getCreationDate() {
-		return creationDate;
+	public Timestamp getCreation_date() {
+		return creation_date;
 	}
 
-	public void setCreationDate(Timestamp creationDate) {
-		this.creationDate = creationDate;
+	public void setCreation_date(Timestamp creation_date) {
+		this.creation_date = creation_date;
 	}
 
-	public String getRevisionName() {
-		return revisionName;
+	public String getRevision_name() {
+		return revision_name;
 	}
 
-	public void setRevisionName(String revisionName) {
-		this.revisionName = revisionName;
+	public void setRevision_name(String revision_name) {
+		this.revision_name = revision_name;
 	}
 
-	public Timestamp getRevisionDate() {
-		return revisionDate;
+	public Timestamp getRevision_date() {
+		return revision_date;
 	}
 
-	public void setRevisionDate(Timestamp revisionDate) {
-		this.revisionDate = revisionDate;
+	public void setRevision_date(Timestamp revision_date) {
+		this.revision_date = revision_date;
 	}
 
-	public String getDealName() {
-		return dealName;
+	public String getDeal_name() {
+		return deal_name;
 	}
 
-	public void setDealName(String dealName) {
-		this.dealName = dealName;
+	public void setDeal_name(String deal_name) {
+		this.deal_name = deal_name;
 	}
 
-	public String getDealType() {
-		return dealType;
+	public String getDeal_type() {
+		return deal_type;
 	}
 
-	public void setDealType(String dealType) {
-		this.dealType = dealType;
+	public void setDeal_type(String deal_type) {
+		this.deal_type = deal_type;
 	}
 
-	public String getSourceListId() {
-		return sourceListId;
+	public String getSourcelist_id() {
+		return sourcelist_id;
 	}
 
-	public void setSourceListId(String sourceListId) {
-		this.sourceListId = sourceListId;
+	public void setSourcelist_id(String sourcelist_id) {
+		this.sourcelist_id = sourcelist_id;
 	}
 
 	public String getSide() {
@@ -229,48 +230,45 @@ public class Trade {
 		this.side = side;
 	}
 
-	// No args constructor
-	public Trade() {
-		super();
-	}
-
-	// All args constructor
-	public Trade(Integer tradeId, @NotBlank(message = "Account is mandatory") String account,
+	public Trade(Integer trade_id, @NotBlank(message = "Account is mandatory") String account,
 			@NotBlank(message = "Type is mandatory") String type,
-			@NotBlank(message = "Buy Quantity is mandatory") Double buyQuantity, Double sellQuantity, Double buyPrice,
-			Double sellPrice, String benchmark, Timestamp tradeDate, String security, String status, String trader,
-			String book, String creationName, Timestamp creationDate, String revisionName, Timestamp revisionDate,
-			String dealName, String dealType, String sourceListId, String side) {
+			@NotBlank(message = "Buy Quantity is mandatory") Double buy_quantity, Double sell_quantity,
+			Double buy_price, Double sell_price, Timestamp trade_date, String security, String status, String trader,
+			String benchmark, String book, String creation_name, Timestamp creation_date, String revision_name,
+			Timestamp revision_date, String deal_name, String deal_type, String sourcelist_id, String side) {
 		super();
-		this.tradeId = tradeId;
+		this.trade_id = trade_id;
 		this.account = account;
 		this.type = type;
-		this.buyQuantity = buyQuantity;
-		this.sellQuantity = sellQuantity;
-		this.buyPrice = buyPrice;
-		this.sellPrice = sellPrice;
-		this.benchmark = benchmark;
-		this.tradeDate = tradeDate;
+		this.buy_quantity = buy_quantity;
+		this.sell_quantity = sell_quantity;
+		this.buy_price = buy_price;
+		this.sell_price = sell_price;
+		this.trade_date = trade_date;
 		this.security = security;
 		this.status = status;
 		this.trader = trader;
+		this.benchmark = benchmark;
 		this.book = book;
-		this.creationName = creationName;
-		this.creationDate = creationDate;
-		this.revisionName = revisionName;
-		this.revisionDate = revisionDate;
-		this.dealName = dealName;
-		this.dealType = dealType;
-		this.sourceListId = sourceListId;
+		this.creation_name = creation_name;
+		this.creation_date = creation_date;
+		this.revision_name = revision_name;
+		this.revision_date = revision_date;
+		this.deal_name = deal_name;
+		this.deal_type = deal_type;
+		this.sourcelist_id = sourcelist_id;
 		this.side = side;
 	}
 
-	// Constructor with account and type args
 	public Trade(@NotBlank(message = "Account is mandatory") String account,
 			@NotBlank(message = "Type is mandatory") String type) {
 		super();
 		this.account = account;
 		this.type = type;
+	}
+
+	public Trade() {
+		super();
 	}
 
 }

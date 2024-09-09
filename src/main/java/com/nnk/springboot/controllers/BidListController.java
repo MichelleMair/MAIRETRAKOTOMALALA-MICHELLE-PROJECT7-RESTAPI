@@ -22,56 +22,58 @@ public class BidListController {
 	private BidListService bidListService;
 
 	// Call service find all bids to show to the view
-	@GetMapping("/bidList/list")
+	@GetMapping("/bidlist/list")
 	public String home(Model model) {
-		model.addAttribute("bidLists", bidListService.getAllBidLists());
-		return "bidList/list";
+		model.addAttribute("bidlists", bidListService.getAllBidLists());
+		return "bidlist/list";
 	}
 
-	@GetMapping("/bidList/add")
-	public String addBidForm(BidList bid) {
-		return "bidList/add";
+	@GetMapping("/bidlist/add")
+	public String addBidForm(Model model) {
+		model.addAttribute("bidlist", new BidList());
+		return "bidlist/add";
 	}
 
 	// Check data valid and save to db, after saving return bid list
-	@PostMapping("/bidList/validate")
+	@PostMapping("/bidlist/validate")
 	public String validate(@Valid BidList bid, BindingResult result, Model model) {
 		if (result.hasErrors()) {
-			return "bidList/add";
+			model.addAttribute("bidlist", bid);
+			return "bidlist/add";
 		}
 		bidListService.saveBidList(bid);
-		return "redirect:/bidList/list";
+		return "redirect:/bidlist/list";
 	}
 
 	// Get Bid by Id and to model then show to the form
-	@GetMapping("/bidList/update/{id}")
+	@GetMapping("/bidlist/update/{id}")
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
 		Optional<BidList> bidList = bidListService.getBidListById(id);
 		if (bidList.isPresent()) {
-			model.addAttribute("bidList", bidList.get());
-			return "bidList/update";
+			model.addAttribute("bidlist", bidList.get());
+			return "bidlist/update";
 		} else {
-			return "redirect:/bidList/list";
+			return "redirect:/bidlist/list";
 		}
 	}
 
 	// Check required fields, if valid call service to update Bid and return
 	// list Bid
-	@PostMapping("/bidList/update/{id}")
+	@PostMapping("/bidlist/update/{id}")
 	public String updateBid(@PathVariable("id") Integer id, @Valid BidList bidList, BindingResult result, Model model) {
 		if (result.hasErrors()) {
-			model.addAttribute("bidList", bidList);
-			return "bidList/update";
+			model.addAttribute("bidlist", bidList);
+			return "bidlist/update";
 		}
-		bidList.setBidListId(id);
+		bidList.setBidlist_id(id);
 		bidListService.saveBidList(bidList);
-		return "redirect:/bidList/list";
+		return "redirect:/bidlist/list";
 	}
 
 	// Find Bid by Id and delete the bid, return to Bid list
-	@GetMapping("/bidList/delete/{id}")
+	@GetMapping("/bidlist/delete/{id}")
 	public String deleteBid(@PathVariable("id") Integer id, Model model) {
 		bidListService.deleteBidList(id);
-		return "redirect:/bidList/list";
+		return "redirect:/bidlist/list";
 	}
 }

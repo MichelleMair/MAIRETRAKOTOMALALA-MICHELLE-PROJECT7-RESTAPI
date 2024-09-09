@@ -14,7 +14,7 @@ public class RuleName {
 	// TODO: Map columns in data table RULENAME with corresponding java fields
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
 	@NotBlank(message = "Name is mandatory")
@@ -27,11 +27,11 @@ public class RuleName {
 
 	private String template;
 
-	private String sqlStr;
+	private String sqlstr;
 
-	private String sqlPart;
+	private String sqlpart;
 
-	// GETTERS AND SETTERS
+	// GETTERS & SETTERS
 	public Integer getId() {
 		return id;
 	}
@@ -72,52 +72,49 @@ public class RuleName {
 		this.template = template;
 	}
 
-	public String getSqlStr() {
-		return sqlStr;
+	public String getSqlstr() {
+		return sqlstr;
 	}
 
-	public void setSqlStr(String sqlStr) {
-		this.sqlStr = sqlStr;
+	public void setSqlstr(String sqlstr) {
+		this.sqlstr = sqlstr;
 	}
 
-	public String getSqlPart() {
-		return sqlPart;
+	public String getSqlpart() {
+		return sqlpart;
 	}
 
-	public void setSqlPart(String sqlPart) {
-		this.sqlPart = sqlPart;
+	public void setSqlpart(String sqlpart) {
+		this.sqlpart = sqlpart;
 	}
 
-	// No args constructor
-	public RuleName() {
-		super();
-	}
-
-	// All args constructor
 	public RuleName(Integer id, @NotBlank(message = "Name is mandatory") String name,
 			@NotBlank(message = "Description is mandatory") String description, String json, String template,
-			String sqlStr, String sqlPart) {
+			String sqlstr, String sqlpart) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.json = json;
 		this.template = template;
-		this.sqlStr = sqlStr;
-		this.sqlPart = sqlPart;
+		this.sqlstr = sqlstr;
+		this.sqlpart = sqlpart;
 	}
 
-	// Constructor with name, description, json, template, sqlStr, sqlPart args
 	public RuleName(@NotBlank(message = "Name is mandatory") String name,
 			@NotBlank(message = "Description is mandatory") String description, String json, String template,
-			String sqlStr, String sqlPart) {
+			String sqlstr, String sqlpart) {
 		super();
 		this.name = name;
 		this.description = description;
 		this.json = json;
 		this.template = template;
-		this.sqlStr = sqlStr;
-		this.sqlPart = sqlPart;
+		this.sqlstr = sqlstr;
+		this.sqlpart = sqlpart;
+	}
+
+	public RuleName() {
+		super();
 	}
 
 }
