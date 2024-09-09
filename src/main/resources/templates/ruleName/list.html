@@ -10,22 +10,23 @@
 <div class="container">
 	<div class="row">
 		<div class="col-6">
-			<a href="/bidList/list">Bid List</a>&nbsp;|&nbsp;
-			<a href="/curvePoint/list">Curve Points</a>&nbsp;|&nbsp;
-			<a href="/ruleName/list">ruleNames</a>&nbsp;|&nbsp;
+			<a href="/bidlist/list">Bid List</a>&nbsp;|&nbsp;
+			<a href="/curvepoint/list">Curve Points</a>&nbsp;|&nbsp;
+			<a href="/rating/list">Ratings</a>&nbsp;|&nbsp;
 			<a href="/trade/list">Trade</a>&nbsp;|&nbsp;
-			<a href="/ruleName/list">Rule</a>
+			<a href="/rulename/list">Rule</a>
 		</div>
 		<div class="col-6 text-right">
-			Logged in user: <b th:inline="text"  class="user"> [[${#httpServletRequest.remoteUser}]] </b>
-			<form th:action="@{/app-logout}" method="POST">
+			Logged in user: <b th:unless="${#authentication}"  class="user">Guest</b>
+			<b th:if="${#authentication}" th:text="${#authentication.name}">[User]</b>
+			<form th:action="@{/app-logout}" method="POST" th:if="${#authentication}">
 				<input type="submit" value="Logout"/>
 			</form>
 		</div>
 	</div>
 	<div class="row"><h2>Rule List</h2></div>
 	<div class="row">
-		<a href="/ruleName/add" class="btn btn-primary btn-sm">Add New</a>
+		<a href="/rulename/add" class="btn btn-primary btn-sm">Add New</a>
 		<table class="table table-bordered">
 			<thead>
 				<tr>
@@ -40,17 +41,17 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:each="ruleName : ${ruleNames}">
-					<td style="width: 10%" th:text="${ruleName.id}"></td>
-					<td th:text="${ruleName.name}"></td>
-					<td th:text="${ruleName.description}"></td>
-					<td th:text="${ruleName.json}"></td>
-					<td th:text="${ruleName.template}"></td>
-					<td th:text="${ruleName.sql}"></td>
-					<td th:text="${ruleName.sqlPart}"></td>
+				<tr th:each="rulename : ${rulenames}">
+					<td style="width: 10%" th:text="${rulename.id}"></td>
+					<td th:text="${rulename.name}"></td>
+					<td th:text="${rulename.description}"></td>
+					<td th:text="${rulename.json}"></td>
+					<td th:text="${rulename.template}"></td>
+					<td th:text="${rulename.sqlstr}"></td>
+					<td th:text="${rulename.sqlpart}"></td>
 					<td style="width: 15%" class="text-center">
-						<a th:href="@{/ruleName/update/{id}(id=${ruleName.id})}">Edit</a>&nbsp;|&nbsp;
-						<a th:href="@{/ruleName/delete/{id}(id=${ruleName.id})}">Delete</a>
+						<a th:href="@{/rulename/update/{id}(id=${rulename.id})}">Edit</a>&nbsp;|&nbsp;
+						<a th:href="@{/rulename/delete/{id}(id=${rulename.id})}">Delete</a>
 					</td>
 				</tr>
 			</tbody>
