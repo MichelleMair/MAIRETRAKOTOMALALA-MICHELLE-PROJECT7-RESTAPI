@@ -46,13 +46,13 @@ public class BidListControllerTest {
 	public void testHome() throws Exception {
 		when(bidListService.getAllBidLists()).thenReturn(List.of(new BidList("Account Test", "Type Test", 10d)));
 
-		mockMvc.perform(get("/bidList/list")).andExpect(status().isOk()).andExpect(model().attributeExists("bidLists"))
-				.andExpect(view().name("bidList/list"));
+		mockMvc.perform(get("/bidlist/list")).andExpect(status().isOk()).andExpect(model().attributeExists("bidlists"))
+				.andExpect(view().name("bidlist/list"));
 	}
 
 	@Test
 	public void testAddBidForm() throws Exception {
-		mockMvc.perform(get("/bidList/add")).andExpect(status().isOk()).andExpect(view().name("bidList/add"));
+		mockMvc.perform(get("/bidlist/add")).andExpect(status().isOk()).andExpect(view().name("bidlist/add"));
 	}
 
 	@Test
@@ -64,13 +64,13 @@ public class BidListControllerTest {
 
 		String view = bidListController.updateBid(1, bid, bindingResult, Mockito.mock(Model.class));
 
-		assertEquals("redirect:/bidList/list", view);
+		assertEquals("redirect:/bidlist/list", view);
 	}
 
 	@Test
 	public void testDeleteBid() throws Exception {
 		String view = bidListController.deleteBid(1, Mockito.mock(Model.class));
-		assertEquals("redirect:/bidList/list", view);
+		assertEquals("redirect:/bidlist/list", view);
 	}
 
 }

@@ -46,15 +46,15 @@ public class CurvePointControllerTest {
 	public void testHome() throws Exception {
 		when(curvePointService.getAllCurvePoints()).thenReturn(List.of(new CurvePoint(1, 10, null, 1.0, 2.0, null)));
 
-		mockMvc.perform(get("/curvePoint/list")).andExpect(status().isOk())
-				.andExpect(model().attributeExists("curvePoints")).andExpect(view().name("curvePoint/list"));
+		mockMvc.perform(get("/curvepoint/list")).andExpect(status().isOk())
+				.andExpect(model().attributeExists("curvepoints")).andExpect(view().name("curvepoint/list"));
 
 		verify(curvePointService, times(1)).getAllCurvePoints();
 	}
 
 	@Test
 	public void testAddCurvePointForm() throws Exception {
-		mockMvc.perform(get("/curvePoint/add")).andExpect(status().isOk()).andExpect(view().name("curvePoint/add"));
+		mockMvc.perform(get("/curvepoint/add")).andExpect(status().isOk()).andExpect(view().name("curvepoint/add"));
 	}
 
 	@Test
@@ -62,16 +62,16 @@ public class CurvePointControllerTest {
 		CurvePoint curvePoint = new CurvePoint(1, 10, null, 1.0, 2.0, null);
 		when(curvePointService.getCurvePointById(1)).thenReturn(Optional.of(curvePoint));
 
-		mockMvc.perform(get("/curvePoint/update/1")).andExpect(status().isOk())
-				.andExpect(view().name("curvePoint/update")).andExpect(model().attributeExists("curvePoint"));
+		mockMvc.perform(get("/curvepoint/update/1")).andExpect(status().isOk())
+				.andExpect(view().name("curvepoint/update")).andExpect(model().attributeExists("curvepoint"));
 
 		verify(curvePointService, times(1)).getCurvePointById(1);
 	}
 
 	@Test
 	public void testDeleteCurveById() throws Exception {
-		mockMvc.perform(get("/curvePoint/delete/1")).andExpect(status().is3xxRedirection())
-				.andExpect(redirectedUrl("/curvePoint/list"));
+		mockMvc.perform(get("/curvepoint/delete/1")).andExpect(status().is3xxRedirection())
+				.andExpect(redirectedUrl("/curvepoint/list"));
 		verify(curvePointService, times(1)).deleteCurvePoint(1);
 	}
 
