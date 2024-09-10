@@ -2,13 +2,12 @@ package com.nnk.springboot.domain;
 
 import java.sql.Timestamp;
 
-import javax.validation.constraints.NotBlank;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "trade")
@@ -265,6 +264,15 @@ public class Trade {
 		super();
 		this.account = account;
 		this.type = type;
+	}
+
+	public Trade(@NotBlank(message = "Account is mandatory") String account,
+			@NotBlank(message = "Type is mandatory") String type,
+			@NotBlank(message = "Buy Quantity is mandatory") Double buy_quantity) {
+		super();
+		this.account = account;
+		this.type = type;
+		this.buy_quantity = buy_quantity;
 	}
 
 	public Trade() {

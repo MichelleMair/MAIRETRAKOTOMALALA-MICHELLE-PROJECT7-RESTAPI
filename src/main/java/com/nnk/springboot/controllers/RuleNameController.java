@@ -2,8 +2,6 @@ package com.nnk.springboot.controllers;
 
 import java.util.Optional;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.nnk.springboot.domain.RuleName;
 import com.nnk.springboot.services.RuleNameService;
+
+import jakarta.validation.Valid;
 
 @Controller
 public class RuleNameController {

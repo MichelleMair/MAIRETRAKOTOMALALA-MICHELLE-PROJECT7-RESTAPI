@@ -1,12 +1,12 @@
 package com.nnk.springboot.domain;
 
-import javax.validation.constraints.NotBlank;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "users")
@@ -16,10 +16,14 @@ public class User {
 	private Integer id;
 	@NotBlank(message = "Username is mandatory")
 	private String username;
+
 	@NotBlank(message = "Password is mandatory")
+	@Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$", message = "The password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one digit, and one special character.")
 	private String password;
+
 	@NotBlank(message = "FullName is mandatory")
 	private String fullname;
+
 	@NotBlank(message = "Role is mandatory")
 	private String role;
 
@@ -61,6 +65,33 @@ public class User {
 
 	public void setRole(String role) {
 		this.role = role;
+	}
+
+	public User(Integer id, @NotBlank(message = "Username is mandatory") String username,
+			@NotBlank(message = "Password is mandatory") String password,
+			@NotBlank(message = "FullName is mandatory") String fullname,
+			@NotBlank(message = "Role is mandatory") String role) {
+		super();
+		this.id = id;
+		this.username = username;
+		this.password = password;
+		this.fullname = fullname;
+		this.role = role;
+	}
+
+	public User(@NotBlank(message = "Username is mandatory") String username,
+			@NotBlank(message = "Password is mandatory") String password,
+			@NotBlank(message = "FullName is mandatory") String fullname,
+			@NotBlank(message = "Role is mandatory") String role) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.fullname = fullname;
+		this.role = role;
+	}
+
+	public User() {
+		super();
 	}
 
 }

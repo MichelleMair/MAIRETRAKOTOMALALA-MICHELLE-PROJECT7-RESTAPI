@@ -2,16 +2,16 @@ package com.nnk.springboot.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class HomeController {
-	@RequestMapping("/")
+	@GetMapping("/")
 	public String home(Model model) {
 		return "home";
 	}
 
-	@RequestMapping("/admin/home")
+	@GetMapping("/admin/home")
 	public String adminHome(Model model) {
 		return "redirect:/bidlist/list";
 	}
