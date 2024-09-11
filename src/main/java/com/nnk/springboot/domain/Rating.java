@@ -8,7 +8,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
@@ -22,15 +21,15 @@ public class Rating {
 	private Integer id;
 
 	@NotBlank(message = "")
-	@NotEmpty(message = "Moody's Rating is mandatory")
+	@NotNull(message = "Moody's Rating is mandatory")
 	private String moodys_rating;
 
 	@NotBlank(message = "")
-	@NotEmpty(message = "S & P Rating is mandatory")
+	@NotNull(message = "S & P Rating is mandatory")
 	private String sandprating;
 
 	@NotBlank(message = "")
-	@NotEmpty(message = "Fitch Rating is mandatory")
+	@NotNull(message = "Fitch Rating is mandatory")
 	private String fitch_rating;
 
 	@NotNull(message = "Order number is mandatory")

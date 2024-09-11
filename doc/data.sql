@@ -43,7 +43,7 @@ CREATE TABLE Trade (
   trade_id INT NOT NULL AUTO_INCREMENT,
   account VARCHAR(30) NOT NULL,
   type VARCHAR(30) NOT NULL,
-  buy_quantity DOUBLE,
+  buy_quantity DOUBLE NOT NULL,
   sell_quantity DOUBLE,
   buy_price DOUBLE ,
   sell_price DOUBLE,
@@ -69,10 +69,10 @@ CREATE TABLE Trade (
 
 CREATE TABLE CurvePoint (
   id INT NOT NULL AUTO_INCREMENT,
-  curve_id INT,
+  curve_id INT NOT NULL,
   as_of_date TIMESTAMP,
-  term DOUBLE ,
-  value DOUBLE ,
+  term DOUBLE,
+  value DOUBLE,
   creation_date TIMESTAMP ,
 
   PRIMARY KEY (id)
@@ -81,8 +81,8 @@ CREATE TABLE CurvePoint (
 
 CREATE TABLE RuleName (
   id INT NOT NULL AUTO_INCREMENT,
-  name VARCHAR(125),
-  description VARCHAR(125),
+  name VARCHAR(125) NOT NULL,
+  description VARCHAR(125) NOT NULL,
   json VARCHAR(125),
   template VARCHAR(512),
   sqlstr VARCHAR(125),
@@ -94,10 +94,10 @@ CREATE TABLE RuleName (
 
 CREATE TABLE Users (
   id INT NOT NULL AUTO_INCREMENT,
-  username VARCHAR(125),
-  password VARCHAR(255),
-  fullname VARCHAR(125),
-  role VARCHAR(125),
+  username VARCHAR(125) NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  fullname VARCHAR(125) NOT NULL,
+  role VARCHAR(125) NOT NULL,
 
   PRIMARY KEY (id)
 );

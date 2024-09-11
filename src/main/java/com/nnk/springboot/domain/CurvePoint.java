@@ -22,15 +22,12 @@ public class CurvePoint {
 	private Integer id;
 
 	@NotNull(message = "Curve ID is mandatory")
+	@Column(name = "curve_id")
 	@Min(value = 1, message = "Curve ID must be positive and higher than 0")
 	private Integer curve_id;
 
 	private Timestamp as_of_date;
-
-	@Min(value = 1, message = "Term must be positive and higher than 0")
 	private Double term;
-
-	@Min(value = 1, message = "Value must be positive and higher than 0")
 	private Double value;
 
 	private Timestamp creation_date;

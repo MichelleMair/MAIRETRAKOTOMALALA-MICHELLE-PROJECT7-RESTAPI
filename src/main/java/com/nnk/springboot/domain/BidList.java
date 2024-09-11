@@ -8,9 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
@@ -23,15 +21,15 @@ public class BidList {
 	private Integer bidlist_id;
 
 	@NotBlank(message = "")
-	@NotEmpty(message = "Account is mandatory")
+	@NotNull(message = "Account is mandatory")
+	@Column(name = "account", nullable = false, length= 30)
 	private String account;
 
 	@NotBlank(message = "")
-	@NotEmpty(message = "Type is mandatory")
+	@NotNull(message = "Type is mandatory")
+	@Column(name = "type", nullable = false, length= 30)
 	private String type;
 
-	@NotNull(message = "Bid Quantity is mandatory")
-	@Min(value = 1, message = "Bid Quantity must be positive and higher than 0")
 	private Double bidquantity;
 
 	private Double askquantity;

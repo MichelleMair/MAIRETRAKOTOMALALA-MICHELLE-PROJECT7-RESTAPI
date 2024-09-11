@@ -46,10 +46,24 @@ public class BidListController {
 	// Check data valid and save to db, after saving return bid list
 	@PostMapping("/bidlist/validate")
 	public String validate(@Valid BidList bid, BindingResult result, Model model) {
+		
+		logger.info("ACCOUNT : " + bid.getAccount());
+		logger.info("TYPE: " + bid.getType());
+		logger.info("BID QUANTITY: " + bid.getBidquantity());
+		
 		if (result.hasErrors()) {
+			logger.error("Result for bidlist has errors ", result.getAllErrors());
+			logger.info("Result error: ACCOUNT : " + bid.getAccount());
+			logger.info("Result error: TYPE: " + bid.getType());
+			logger.info("Result error: BID QUANTITY: " + bid.getBidquantity());
+			
 			model.addAttribute("bidlist", bid);
+			
 			return "bidlist/add";
 		}
+		logger.info("Saving ACCOUNT : " + bid.getAccount());
+		logger.info("Saving TYPE: " + bid.getType());
+		logger.info("Saving BID QUANTITY: " + bid.getBidquantity());
 		bidListService.saveBidList(bid);
 		return "redirect:/bidlist/list";
 	}

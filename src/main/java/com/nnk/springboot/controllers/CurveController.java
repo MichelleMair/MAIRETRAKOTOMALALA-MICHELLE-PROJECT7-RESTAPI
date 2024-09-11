@@ -41,8 +41,13 @@ public class CurveController {
 	// Check data valid and save to db, after saving return Curve list
 	@PostMapping("/curvepoint/validate")
 	public String validate(@Valid CurvePoint curvePoint, BindingResult result, Model model) {
+		
+		logger.info("Curve ID : " + curvePoint.getCurve_id());
+	
 		if (result.hasErrors()) {
-			model.addAttribute("curvepoint", curvePoint);
+			logger.error("Result for curve point has errors ", result.getAllErrors());			
+			logger.info("Result error: Curve ID : " + curvePoint.getCurve_id());
+
 			return "curvepoint/add";
 		}
 		curvePointService.saveCurvePoint(curvePoint);
