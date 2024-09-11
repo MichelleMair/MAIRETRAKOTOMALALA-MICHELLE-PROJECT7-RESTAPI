@@ -6,6 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 
 @Entity
@@ -14,17 +15,22 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	@NotBlank(message = "Username is mandatory")
+	
+	@NotBlank(message = "")
+	@NotEmpty(message = "Username is mandatory")
 	private String username;
 
-	@NotBlank(message = "Password is mandatory")
+	@NotBlank(message = "")
+	@NotEmpty(message = "Password is mandatory")
 	@Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$", message = "The password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one digit, and one special character.")
 	private String password;
 
-	@NotBlank(message = "FullName is mandatory")
+	@NotBlank(message = "")
+	@NotEmpty(message = "Fullname is mandatory")
 	private String fullname;
 
-	@NotBlank(message = "Role is mandatory")
+	@NotBlank(message = "")
+	@NotEmpty(message = "Role is mandatory")
 	private String role;
 
 	public Integer getId() {

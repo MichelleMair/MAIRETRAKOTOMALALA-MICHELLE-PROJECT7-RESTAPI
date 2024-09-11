@@ -2,14 +2,16 @@ package com.nnk.springboot.domain;
 
 import java.sql.Timestamp;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 
 @Entity
 @Table(name = "bidlist")
@@ -17,16 +19,19 @@ public class BidList {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "bidlist_id")
 	private Integer bidlist_id;
 
-	@NotBlank(message = "Account is mandatory")
+	@NotBlank(message = "")
+	@NotEmpty(message = "Account is mandatory")
 	private String account;
 
-	@NotBlank(message = "Type is mandatory")
+	@NotBlank(message = "")
+	@NotEmpty(message = "Type is mandatory")
 	private String type;
 
 	@NotNull(message = "Bid Quantity is mandatory")
-	@Positive(message = "Bid Quantity must be positive")
+	@Min(value = 1, message = "Bid Quantity must be positive and higher than 0")
 	private Double bidquantity;
 
 	private Double askquantity;

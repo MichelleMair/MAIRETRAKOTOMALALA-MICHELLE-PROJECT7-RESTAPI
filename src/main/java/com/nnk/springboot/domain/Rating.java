@@ -1,11 +1,14 @@
 package com.nnk.springboot.domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
@@ -15,19 +18,24 @@ public class Rating {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
 	private Integer id;
 
-	@NotBlank(message = "Moody's Rating is mandatory")
+	@NotBlank(message = "")
+	@NotEmpty(message = "Moody's Rating is mandatory")
 	private String moodys_rating;
 
-	@NotBlank(message = "S & P Rating is mandatory")
+	@NotBlank(message = "")
+	@NotEmpty(message = "S & P Rating is mandatory")
 	private String sandprating;
 
-	@NotBlank(message = "Fitch Rating is mandatory")
+	@NotBlank(message = "")
+	@NotEmpty(message = "Fitch Rating is mandatory")
 	private String fitch_rating;
 
 	@NotNull(message = "Order number is mandatory")
-	@Positive(message = "Order number must be positive")
+	@Min(value = 1, message = "Order number must be positive and higher than 0")
+	@Column(name = "order_number")
 	private Integer order_number;
 
 	// GETTERS & SETTERS

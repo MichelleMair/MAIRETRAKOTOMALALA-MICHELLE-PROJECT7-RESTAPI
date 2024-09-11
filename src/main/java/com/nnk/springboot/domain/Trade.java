@@ -2,28 +2,36 @@ package com.nnk.springboot.domain;
 
 import java.sql.Timestamp;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "trade")
 public class Trade {
-	// TODO: Map columns in data table TRADE with corresponding java fields
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "trade_id")
 	private Integer trade_id;
 
-	@NotBlank(message = "Account is mandatory")
+	@NotBlank(message = "")
+	@NotEmpty(message = "Account is mandatory")
 	private String account;
 
-	@NotBlank(message = "Type is mandatory")
+	@NotBlank(message = "")
+	@NotEmpty(message = "Type is mandatory")
 	private String type;
 
-	@NotBlank(message = "Buy Quantity is mandatory")
+	@NotNull(message = "Buy Quantity is mandatory")
+	@Min(value = 1, message = "Buy Quantity must be positive and higher than 0")
 	private Double buy_quantity;
 
 	private Double sell_quantity;

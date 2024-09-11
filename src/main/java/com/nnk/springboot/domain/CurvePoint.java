@@ -2,11 +2,13 @@ package com.nnk.springboot.domain;
 
 import java.sql.Timestamp;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
@@ -16,15 +18,19 @@ public class CurvePoint {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
 	private Integer id;
 
 	@NotNull(message = "Curve ID is mandatory")
+	@Min(value = 1, message = "Curve ID must be positive and higher than 0")
 	private Integer curve_id;
 
 	private Timestamp as_of_date;
 
+	@Min(value = 1, message = "Term must be positive and higher than 0")
 	private Double term;
 
+	@Min(value = 1, message = "Value must be positive and higher than 0")
 	private Double value;
 
 	private Timestamp creation_date;

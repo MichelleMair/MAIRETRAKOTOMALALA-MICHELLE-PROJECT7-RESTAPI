@@ -7,6 +7,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.nnk.springboot.repositories.UserRepository;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 @Controller
 public class LoginController {
 
@@ -18,6 +20,20 @@ public class LoginController {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("login");
 		return mav;
+	}
+	
+	@GetMapping("/default")
+	public String defaultSuccessUrl(HttpServletRequest req) {
+		if(req.isUserInRole("ADMIN")) {
+			//spécifiques au rôle admin
+			return "redirect:/user/list";
+		} else if (req.isUserInRole("USER")){
+			//Rôle user
+			return "redirect:/bidlist/list";
+		} else {
+			//retour à la page login
+			return "login";
+		}
 	}
 
 	@GetMapping("secure/article-details")

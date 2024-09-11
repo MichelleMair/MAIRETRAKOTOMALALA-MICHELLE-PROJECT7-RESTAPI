@@ -1,11 +1,13 @@
 package com.nnk.springboot.domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "rulename")
@@ -14,12 +16,15 @@ public class RuleName {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
 	private Integer id;
 
-	@NotBlank(message = "Name is mandatory")
+	@NotBlank(message = "")
+	@NotEmpty(message = "Name is mandatory")
 	private String name;
 
-	@NotBlank(message = "Description is mandatory")
+	@NotBlank(message = "")
+	@NotEmpty(message = "Description is mandatory")
 	private String description;
 
 	private String json;
