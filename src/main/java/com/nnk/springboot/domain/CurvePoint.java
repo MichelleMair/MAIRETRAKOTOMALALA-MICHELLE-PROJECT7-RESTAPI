@@ -14,7 +14,6 @@ import jakarta.validation.constraints.NotNull;
 @Entity
 @Table(name = "curvepoint")
 public class CurvePoint {
-	// TODO: Map columns in data table CURVEPOINT with corresponding java fields
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,6 +32,7 @@ public class CurvePoint {
 	private Timestamp creation_date;
 
 	// GETTERS AND SETTERS
+
 
 	public Integer getId() {
 		return id;
@@ -82,9 +82,13 @@ public class CurvePoint {
 		this.creation_date = creation_date;
 	}
 
-	// All args constructor
-	public CurvePoint(Integer id, @NotNull(message = "Curve ID is mandatory") Integer curve_id, Timestamp as_of_date,
-			Double term, Double value, Timestamp creation_date) {
+	public CurvePoint() {
+		super();
+	}
+
+	public CurvePoint(Integer id,
+			@NotNull(message = "Curve ID is mandatory") @Min(value = 1, message = "Curve ID must be positive and higher than 0") Integer curve_id,
+			Timestamp as_of_date, Double term, Double value, Timestamp creation_date) {
 		super();
 		this.id = id;
 		this.curve_id = curve_id;
@@ -94,16 +98,15 @@ public class CurvePoint {
 		this.creation_date = creation_date;
 	}
 
-	public CurvePoint(@NotNull(message = "Curve ID is mandatory") Integer curve_id, Double term, Double value) {
+	public CurvePoint(
+			@NotNull(message = "Curve ID is mandatory") @Min(value = 1, message = "Curve ID must be positive and higher than 0") Integer curve_id,
+			Double term, Double value) {
 		super();
 		this.curve_id = curve_id;
 		this.term = term;
 		this.value = value;
 	}
 
-	// No args constructor
-	public CurvePoint() {
-		super();
-	}
+
 
 }

@@ -22,15 +22,19 @@ public class Trade {
 	@Column(name = "trade_id")
 	private Integer trade_id;
 
-	@NotBlank(message = "")
 	@NotEmpty(message = "Account is mandatory")
+	@NotBlank(message = "The field must not contain only blankspaces")
+	@Column(name = "account", nullable = false, length= 255)
 	private String account;
 
-	@NotBlank(message = "")
+
 	@NotEmpty(message = "Type is mandatory")
+	@NotBlank(message = "The field must not contain only blankspaces")
+	@Column(name = "type", nullable = false, length= 255)
 	private String type;
 
 	@NotNull(message = "Buy Quantity is mandatory")
+	@Column(name ="buy_quantity")
 	@Min(value = 1, message = "Buy Quantity must be positive and higher than 0")
 	private Double buy_quantity;
 
@@ -68,7 +72,8 @@ public class Trade {
 
 	private String side;
 
-	// GETTERS & SETTERS
+	
+	//GETTERS & SETTERS
 	public Integer getTrade_id() {
 		return trade_id;
 	}
@@ -237,12 +242,36 @@ public class Trade {
 		this.side = side;
 	}
 
-	public Trade(Integer trade_id, @NotBlank(message = "Account is mandatory") String account,
-			@NotBlank(message = "Type is mandatory") String type,
-			@NotBlank(message = "Buy Quantity is mandatory") Double buy_quantity, Double sell_quantity,
-			Double buy_price, Double sell_price, Timestamp trade_date, String security, String status, String trader,
-			String benchmark, String book, String creation_name, Timestamp creation_date, String revision_name,
-			Timestamp revision_date, String deal_name, String deal_type, String sourcelist_id, String side) {
+	public Trade(
+			@NotEmpty(message = "Account is mandatory") @NotBlank(message = "The field must not contain only blankspaces") String account,
+			@NotEmpty(message = "Type is mandatory") @NotBlank(message = "The field must not contain only blankspaces") String type) {
+		super();
+		this.account = account;
+		this.type = type;
+	}
+
+	public Trade(
+			@NotEmpty(message = "Account is mandatory") @NotBlank(message = "The field must not contain only blankspaces") String account,
+			@NotEmpty(message = "Type is mandatory") @NotBlank(message = "The field must not contain only blankspaces") String type,
+			@NotNull(message = "Buy Quantity is mandatory") @Min(value = 1, message = "Buy Quantity must be positive and higher than 0") Double buy_quantity) {
+		super();
+		this.account = account;
+		this.type = type;
+		this.buy_quantity = buy_quantity;
+	}
+
+	public Trade() {
+		super();
+	}
+
+	public Trade(Integer trade_id,
+			@NotEmpty(message = "Account is mandatory") @NotBlank(message = "The field must not contain only blankspaces") String account,
+			@NotEmpty(message = "Type is mandatory") @NotBlank(message = "The field must not contain only blankspaces") String type,
+			@NotNull(message = "Buy Quantity is mandatory") @Min(value = 1, message = "Buy Quantity must be positive and higher than 0") Double buy_quantity,
+			Double sell_quantity, Double buy_price, Double sell_price, Timestamp trade_date, String security,
+			String status, String trader, String benchmark, String book, String creation_name, Timestamp creation_date,
+			String revision_name, Timestamp revision_date, String deal_name, String deal_type, String sourcelist_id,
+			String side) {
 		super();
 		this.trade_id = trade_id;
 		this.account = account;
@@ -266,25 +295,6 @@ public class Trade {
 		this.sourcelist_id = sourcelist_id;
 		this.side = side;
 	}
-
-	public Trade(@NotBlank(message = "Account is mandatory") String account,
-			@NotBlank(message = "Type is mandatory") String type) {
-		super();
-		this.account = account;
-		this.type = type;
-	}
-
-	public Trade(@NotBlank(message = "Account is mandatory") String account,
-			@NotBlank(message = "Type is mandatory") String type,
-			@NotBlank(message = "Buy Quantity is mandatory") Double buy_quantity) {
-		super();
-		this.account = account;
-		this.type = type;
-		this.buy_quantity = buy_quantity;
-	}
-
-	public Trade() {
-		super();
-	}
+	
 
 }

@@ -12,19 +12,20 @@ import jakarta.validation.constraints.NotEmpty;
 @Entity
 @Table(name = "rulename")
 public class RuleName {
-	// TODO: Map columns in data table RULENAME with corresponding java fields
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Integer id;
 
-	@NotBlank(message = "")
 	@NotEmpty(message = "Name is mandatory")
+	@NotBlank(message = "The field must not contain only blankspaces")
+	@Column(name = "name", nullable = false, length= 255)
 	private String name;
 
-	@NotBlank(message = "")
 	@NotEmpty(message = "Description is mandatory")
+	@NotBlank(message = "The field must not contain only blankspaces")
+	@Column(name = "description", nullable = false, length= 255)
 	private String description;
 
 	private String json;
@@ -34,8 +35,10 @@ public class RuleName {
 	private String sqlstr;
 
 	private String sqlpart;
+	
+	
+	//GETTERS & SETTERS
 
-	// GETTERS & SETTERS
 	public Integer getId() {
 		return id;
 	}
@@ -92,9 +95,11 @@ public class RuleName {
 		this.sqlpart = sqlpart;
 	}
 
-	public RuleName(Integer id, @NotBlank(message = "Name is mandatory") String name,
-			@NotBlank(message = "Description is mandatory") String description, String json, String template,
-			String sqlstr, String sqlpart) {
+	
+	public RuleName(Integer id,
+			@NotEmpty(message = "Name is mandatory") @NotBlank(message = "The field must not contain only blankspaces") String name,
+			@NotEmpty(message = "Description is mandatory") @NotBlank(message = "The field must not contain only blankspaces") String description,
+			String json, String template, String sqlstr, String sqlpart) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -105,9 +110,10 @@ public class RuleName {
 		this.sqlpart = sqlpart;
 	}
 
-	public RuleName(@NotBlank(message = "Name is mandatory") String name,
-			@NotBlank(message = "Description is mandatory") String description, String json, String template,
-			String sqlstr, String sqlpart) {
+	public RuleName(
+			@NotEmpty(message = "Name is mandatory") @NotBlank(message = "The field must not contain only blankspaces") String name,
+			@NotEmpty(message = "Description is mandatory") @NotBlank(message = "The field must not contain only blankspaces") String description,
+			String json, String template, String sqlstr, String sqlpart) {
 		super();
 		this.name = name;
 		this.description = description;
@@ -120,5 +126,7 @@ public class RuleName {
 	public RuleName() {
 		super();
 	}
+
+
 
 }
