@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 import com.nnk.springboot.domain.CurvePoint;
 import com.nnk.springboot.repositories.CurvePointRepository;
 
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
+
 @Service
 public class CurvePointService {
 
@@ -23,11 +26,26 @@ public class CurvePointService {
 		return curvePointRepository.findById(id);
 	}
 
-	public CurvePoint saveCurvePoint(CurvePoint curvePoint) {
+	public CurvePoint saveCurvePoint(@Valid CurvePoint curvePoint) {
 		return curvePointRepository.save(curvePoint);
 	}
 
+	public CurvePoint updateCurvePoint(Integer id, @Valid CurvePoint updatedCurvePoint) {
+		return curvePointRepository.findById(id)
+				.map(curvePoint -> {
+					curvePoint.setCurve_id(updatedCurvePoint.getCurve_id());
+					curvePoint.setTerm(updatedCurvePoint.getTerm());
+					curvePoint.setValue(updatedCurvePoint.getValue());
+					return curvePointRepository.save(curvePoint);
+				})
+				.orElseThrow(() -> new EntityNotFoundException("Curve Point with id " + id + " not found"));
+	}
+	
 	public void deleteCurvePoint(Integer id) {
-		curvePointRepository.deleteById(id);
+		if(curvePointRepository.existsById(id)) {
+			curvePointRepository.deleteById(id);
+		} else {
+			throw new EntityNotFoundException("Curve Point with id " + id + " not found");
+		}
 	}
 }

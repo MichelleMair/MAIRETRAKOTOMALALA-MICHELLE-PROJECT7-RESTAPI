@@ -9,12 +9,16 @@ import org.springframework.stereotype.Service;
 import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.repositories.BidListRepository;
 
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
+
 @Service
 public class BidListService {
 
 	@Autowired
 	private BidListRepository bidListRepository;
 
+	
 	public List<BidList> getAllBidLists() {
 		return bidListRepository.findAll();
 	}
@@ -22,12 +26,28 @@ public class BidListService {
 	public Optional<BidList> getBidListById(Integer bidListId) {
 		return bidListRepository.findById(bidListId);
 	}
-
-	public BidList saveBidList(BidList bidList) {
+	
+	//Enregistrer un nouveau bidlist avec validation 
+	public BidList saveBidList(@Valid BidList bidList) {
 		return bidListRepository.save(bidList);
 	}
 
+	public BidList updateBidList(Integer bidlistId, @Valid BidList updatedBidlist) {
+		return bidListRepository.findById(bidlistId)
+				.map(bidList -> {
+					bidList.setAccount(updatedBidlist.getAccount());
+					bidList.setType(updatedBidlist.getType());
+					bidList.setBidquantity(updatedBidlist.getBidquantity());
+					return bidListRepository.save(bidList);
+				})
+				.orElseThrow(() -> new EntityNotFoundException("BidList with id " + bidlistId + " not found"));
+	}
+
 	public void deleteBidList(Integer bidListId) {
-		bidListRepository.deleteById(bidListId);
+		if(bidListRepository.existsById(bidListId)) {
+			bidListRepository.deleteById(bidListId);
+		} else {
+			throw new EntityNotFoundException("BidList with id " + bidListId + " not found");
+		}
 	}
 }

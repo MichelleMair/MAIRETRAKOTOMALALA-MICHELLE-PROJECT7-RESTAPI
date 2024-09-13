@@ -84,8 +84,7 @@ public class RatingController {
 			model.addAttribute("rating", rating);
 			return "rating/update";
 		}
-		rating.setId(id);
-		ratingService.saveRating(rating);
+		ratingService.updateRating(id, rating);
 		return "redirect:/rating/list";
 	}
 

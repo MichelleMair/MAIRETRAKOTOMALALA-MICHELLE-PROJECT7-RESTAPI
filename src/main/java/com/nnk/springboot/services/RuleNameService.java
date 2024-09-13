@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 import com.nnk.springboot.domain.RuleName;
 import com.nnk.springboot.repositories.RuleNameRepository;
 
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
+
 @Service
 public class RuleNameService {
 
@@ -23,12 +26,31 @@ public class RuleNameService {
 		return ruleNameRepository.findById(id);
 	}
 
-	public RuleName saveRuleName(RuleName ruleName) {
+	public RuleName saveRuleName(@Valid RuleName ruleName) {
 		return ruleNameRepository.save(ruleName);
+	}
+	
+	
+	public RuleName updateRuleName(Integer id, @Valid RuleName updatedRuleName) {
+		return ruleNameRepository.findById(id)
+				.map(ruleName -> {
+					ruleName.setName(updatedRuleName.getName());
+					ruleName.setDescription(updatedRuleName.getDescription());
+					ruleName.setJson(updatedRuleName.getJson());
+					ruleName.setTemplate(updatedRuleName.getTemplate());
+					ruleName.setSqlstr(updatedRuleName.getSqlstr());
+					ruleName.setSqlpart(updatedRuleName.getSqlpart());
+					return ruleNameRepository.save(ruleName);
+				})
+				.orElseThrow(() -> new EntityNotFoundException("RuleName with id " + id + " not found"));
 	}
 
 	public void deleteRuleName(Integer id) {
-		ruleNameRepository.deleteById(id);
+		if (ruleNameRepository.existsById(id)) {
+			ruleNameRepository.deleteById(id);
+		} else {
+			throw new EntityNotFoundException("RuleName with id " + id + " not found");
+		}
 	}
 
 }

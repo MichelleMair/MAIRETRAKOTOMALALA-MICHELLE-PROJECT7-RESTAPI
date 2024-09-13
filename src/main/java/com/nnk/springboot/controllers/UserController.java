@@ -68,8 +68,7 @@ public class UserController {
 		}
 
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
-		user.setId(id);
-		userService.saveUser(user);
+		userService.updateUser(id, user);
 		model.addAttribute("users", userService.getAllUsers());
 		return "redirect:/user/list";
 	}

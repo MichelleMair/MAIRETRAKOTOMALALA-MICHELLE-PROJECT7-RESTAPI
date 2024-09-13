@@ -65,8 +65,7 @@ public class RuleNameController {
 			model.addAttribute("rulename", ruleName);
 			return "rulename/list";
 		}
-		ruleName.setId(id);
-		ruleNameService.saveRuleName(ruleName);
+		ruleNameService.updateRuleName(id, ruleName);
 		return "redirect:/rulename/list";
 	}
 

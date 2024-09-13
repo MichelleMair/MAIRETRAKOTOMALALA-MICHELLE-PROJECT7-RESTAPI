@@ -67,8 +67,7 @@ public class TradeController {
 			model.addAttribute("trade", trade);
 			return "trade/update";
 		}
-		trade.setTrade_id(id);
-		tradeService.saveTrade(trade);
+		tradeService.updateTrade(id, trade);
 		return "redirect:/trade/list";
 	}
 

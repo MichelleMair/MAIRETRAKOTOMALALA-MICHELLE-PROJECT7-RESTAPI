@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 import com.nnk.springboot.domain.User;
 import com.nnk.springboot.repositories.UserRepository;
 
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
+
 @Service
 public class UserService {
 
@@ -23,11 +26,26 @@ public class UserService {
 		return userRepository.findById(id);
 	}
 
-	public User saveUser(User user) {
+	public User saveUser(@Valid User user) {
 		return userRepository.save(user);
 	}
 
+	public User updateUser(Integer id, @Valid User updatedUser) {
+		return userRepository.findById(id)
+				.map(user -> {
+					user.setUsername(updatedUser.getUsername());
+					user.setPassword(updatedUser.getPassword());
+					user.setRole(updatedUser.getRole());
+					return userRepository.save(user);
+				})
+				.orElseThrow(() -> new EntityNotFoundException("User with id " + id + " not found"));
+	}
+	
 	public void deleteUserById(Integer id) {
-		userRepository.deleteById(id);
+		if (userRepository.existsById(id)) {
+			userRepository.deleteById(id);
+		} else {
+			throw new EntityNotFoundException("User with id " + id + " not found");
+		}
 	}
 }

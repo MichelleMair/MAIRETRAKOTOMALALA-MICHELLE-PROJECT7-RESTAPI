@@ -88,8 +88,7 @@ public class BidListController {
 			model.addAttribute("bidlist", bidList);
 			return "bidlist/update";
 		}
-		bidList.setBidlist_id(id);
-		bidListService.saveBidList(bidList);
+		bidListService.updateBidList(id, bidList);
 		return "redirect:/bidlist/list";
 	}
 
