@@ -10,7 +10,6 @@ import com.nnk.springboot.domain.Trade;
 import com.nnk.springboot.repositories.TradeRepository;
 
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.validation.Valid;
 
 @Service
 public class TradeService {
@@ -26,11 +25,11 @@ public class TradeService {
 		return tradeRepository.findById(trade_id);
 	}
 
-	public Trade saveTrade(@Valid Trade trade) {
+	public Trade saveTrade(Trade trade) {
 		return tradeRepository.save(trade);
 	}
 	
-	public Trade updateTrade(Integer trade_id, @Valid Trade updatedTrade) {
+	public Trade updateTrade(Integer trade_id, Trade updatedTrade) {
 		return tradeRepository.findById(trade_id)
 				.map(trade -> {
 					trade.setAccount(updatedTrade.getAccount());

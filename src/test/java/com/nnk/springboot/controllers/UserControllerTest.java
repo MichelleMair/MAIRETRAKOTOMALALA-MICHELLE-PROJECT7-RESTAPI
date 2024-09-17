@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -56,13 +57,19 @@ public class UserControllerTest {
 
 	@Test
 	public void testValidateUser() throws Exception {
-		User user = new User("user", "password", "User", "USER");
+		User user = new User("user", "Password@2024", "User", "USER");
+		
 		when(userService.saveUser(any(User.class))).thenReturn(user);
+		
 		when(passwordEncoder.encode(any(String.class))).thenReturn("encodedPassword");
 
-		mockMvc.perform(post("/user/validate").param("username", "user").param("password", "password")
-				.param("fullname", "User").param("role", "USER")).andExpect(status().is3xxRedirection())
-				.andExpect(view().name("redirect:/user/list"));
+		mockMvc.perform(post("/user/validate")
+				.param("username", "user")
+				.param("password", "Password@2024")
+				.param("fullname", "User")
+				.param("role", "USER"))
+		.andExpect(status().is3xxRedirection())
+		.andExpect(view().name("redirect:/user/list"));
 
 		verify(userService).saveUser(any(User.class));
 		verify(passwordEncoder).encode(any(String.class));
@@ -81,15 +88,21 @@ public class UserControllerTest {
 
 	@Test
 	public void testUpdateUser() throws Exception {
-		User user = new User("user", "password", "User", "USER");
-		when(userService.saveUser(any(User.class))).thenReturn(user);
+		
+		User user = new User("user", "Password@2024", "User", "USER");
+		
+		when(userService.updateUser(Mockito.anyInt(), Mockito.any(User.class))).thenReturn(user);
 		when(passwordEncoder.encode(any(String.class))).thenReturn("encodedPassword");
 
-		mockMvc.perform(post("/user/update/1").param("username", "user").param("password", "password")
-				.param("fullname", "User").param("role", "USER")).andExpect(status().is3xxRedirection())
-				.andExpect(view().name("redirect:/user/list"));
+		mockMvc.perform(post("/user/update/1")
+				.param("username", "user")
+				.param("password", "Password@2024")
+				.param("fullname", "User")
+				.param("role", "USER"))
+		.andExpect(status().is3xxRedirection())
+		.andExpect(view().name("redirect:/user/list"));
 
-		verify(userService).saveUser(any(User.class));
+		verify(userService).updateUser(Mockito.anyInt(), Mockito.any(User.class));
 		verify(passwordEncoder).encode(any(String.class));
 	}
 

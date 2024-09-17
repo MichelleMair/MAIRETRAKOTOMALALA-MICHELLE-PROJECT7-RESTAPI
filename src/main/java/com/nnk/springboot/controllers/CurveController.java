@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +19,7 @@ import com.nnk.springboot.services.CurvePointService;
 import jakarta.validation.Valid;
 
 @Controller
+@Validated
 public class CurveController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(CurveController.class);
@@ -40,7 +42,7 @@ public class CurveController {
 
 	// Check data valid and save to db, after saving return Curve list
 	@PostMapping("/curvepoint/validate")
-	public String validate(@Valid CurvePoint curvePoint, BindingResult result, Model model) {
+	public String validate(@Valid com.nnk.springboot.domain.CurvePoint curvePoint, BindingResult result, Model model) {
 		
 		logger.info("Curve ID : " + curvePoint.getCurve_id());
 	
@@ -69,7 +71,7 @@ public class CurveController {
 	// Check required fields, if valid call service to update Curve and return
 	// Curve list
 	@PostMapping("/curvepoint/update/{id}")
-	public String updateCurvePoint(@PathVariable("id") Integer id, @Valid CurvePoint curvePoint, BindingResult result,
+	public String updateCurvePoint(@PathVariable("id") Integer id, @Valid com.nnk.springboot.domain.CurvePoint curvePoint, BindingResult result,
 			Model model) {
 		if (result.hasErrors()) {
 			model.addAttribute("curvepoint", curvePoint);

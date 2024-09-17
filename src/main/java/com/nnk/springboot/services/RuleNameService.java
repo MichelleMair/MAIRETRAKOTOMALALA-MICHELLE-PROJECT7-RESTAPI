@@ -10,7 +10,6 @@ import com.nnk.springboot.domain.RuleName;
 import com.nnk.springboot.repositories.RuleNameRepository;
 
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.validation.Valid;
 
 @Service
 public class RuleNameService {
@@ -26,12 +25,12 @@ public class RuleNameService {
 		return ruleNameRepository.findById(id);
 	}
 
-	public RuleName saveRuleName(@Valid RuleName ruleName) {
+	public RuleName saveRuleName(RuleName ruleName) {
 		return ruleNameRepository.save(ruleName);
 	}
 	
 	
-	public RuleName updateRuleName(Integer id, @Valid RuleName updatedRuleName) {
+	public RuleName updateRuleName(Integer id, RuleName updatedRuleName) {
 		return ruleNameRepository.findById(id)
 				.map(ruleName -> {
 					ruleName.setName(updatedRuleName.getName());

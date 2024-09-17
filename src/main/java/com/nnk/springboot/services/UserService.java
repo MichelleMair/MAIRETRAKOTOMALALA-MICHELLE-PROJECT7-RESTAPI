@@ -10,7 +10,6 @@ import com.nnk.springboot.domain.User;
 import com.nnk.springboot.repositories.UserRepository;
 
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.validation.Valid;
 
 @Service
 public class UserService {
@@ -26,11 +25,11 @@ public class UserService {
 		return userRepository.findById(id);
 	}
 
-	public User saveUser(@Valid User user) {
+	public User saveUser(User user) {
 		return userRepository.save(user);
 	}
 
-	public User updateUser(Integer id, @Valid User updatedUser) {
+	public User updateUser(Integer id, User updatedUser) {
 		return userRepository.findById(id)
 				.map(user -> {
 					user.setUsername(updatedUser.getUsername());

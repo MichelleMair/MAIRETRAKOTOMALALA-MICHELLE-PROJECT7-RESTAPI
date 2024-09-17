@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
@@ -86,11 +87,15 @@ public class RuleNameControllerTest {
 
 	@Test
 	public void testUpdateRuleName() throws Exception {
+		RuleName rulename = new RuleName("Rule1", "Description1", "Json1", "Template1", "SQLSTR1", "SQLPart1");
+		
+		when(ruleNameService.updateRuleName(Mockito.anyInt(), Mockito.any(RuleName.class))).thenReturn(rulename);
+		
 		mockMvc.perform(post("/rulename/update/1").contentType(MediaType.APPLICATION_FORM_URLENCODED)
 				.param("name", "Rule1").param("description", "Description1")).andExpect(status().is3xxRedirection())
 				.andExpect(view().name("redirect:/rulename/list"));
 
-		verify(ruleNameService).saveRuleName(any(RuleName.class));
+		verify(ruleNameService).updateRuleName(Mockito.anyInt(), Mockito.any(RuleName.class));
 	}
 
 	@Test

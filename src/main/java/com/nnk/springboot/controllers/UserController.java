@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,7 @@ import com.nnk.springboot.services.UserService;
 import jakarta.validation.Valid;
 
 @Controller
+@Validated
 public class UserController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
@@ -40,7 +42,7 @@ public class UserController {
 	}
 
 	@PostMapping("/user/validate")
-	public String validate(@Valid User user, BindingResult result, Model model) {
+	public String validate(@Valid com.nnk.springboot.domain.User user, BindingResult result, Model model) {
 		if (result.hasErrors()) {
 			model.addAttribute("user", user);
 			return "user/add";
@@ -61,7 +63,7 @@ public class UserController {
 	}
 
 	@PostMapping("/user/update/{id}")
-	public String updateUser(@PathVariable("id") Integer id, @Valid User user, BindingResult result, Model model) {
+	public String updateUser(@PathVariable("id") Integer id, @Valid com.nnk.springboot.domain.User user, BindingResult result, Model model) {
 		if (result.hasErrors()) {
 			model.addAttribute("user", user);
 			return "user/update";

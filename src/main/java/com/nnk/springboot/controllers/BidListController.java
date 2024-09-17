@@ -45,27 +45,19 @@ public class BidListController {
 
 	// Check data valid and save to db, after saving return bid list
 	@PostMapping("/bidlist/validate")
-	public String validate(@Valid BidList bid, BindingResult result, Model model) {
-		
-		logger.info("ACCOUNT : " + bid.getAccount());
-		logger.info("TYPE: " + bid.getType());
-		logger.info("BID QUANTITY: " + bid.getBidquantity());
+	public String validate(@Valid com.nnk.springboot.domain.BidList bid, BindingResult result, Model model) {
 		
 		if (result.hasErrors()) {
-			logger.error("Result for bidlist has errors ", result.getAllErrors());
-			logger.info("Result error: ACCOUNT : " + bid.getAccount());
-			logger.info("Result error: TYPE: " + bid.getType());
-			logger.info("Result error: BID QUANTITY: " + bid.getBidquantity());
-			
+			logger.error("Validation errors occured: {} ", result.getAllErrors());
+			model.addAttribute("org.springframework.validation.BindingResult.bidlist", result);
 			model.addAttribute("bidlist", bid);
-			
 			return "bidlist/add";
-		}
-		logger.info("Saving ACCOUNT : " + bid.getAccount());
-		logger.info("Saving TYPE: " + bid.getType());
-		logger.info("Saving BID QUANTITY: " + bid.getBidquantity());
+		} else {
 		bidListService.saveBidList(bid);
+		
+		logger.info("New bid was add successfully: " + bidListService.saveBidList(bid));
 		return "redirect:/bidlist/list";
+		}
 	}
 
 	// Get Bid by Id and to model then show to the form
@@ -73,23 +65,35 @@ public class BidListController {
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
 		Optional<BidList> bidList = bidListService.getBidListById(id);
 		if (bidList.isPresent()) {
+			
+			logger.error("Processing updating for bid with ID : " + id);
+			
 			model.addAttribute("bidlist", bidList.get());
 			return "bidlist/update";
 		} else {
-			return "redirect:/bidlist/list";
+			logger.error("No bid found with ID : " + id);
+			return "bidlist/update";
 		}
 	}
 
 	// Check required fields, if valid call service to update Bid and return
 	// list Bid
 	@PostMapping("/bidlist/update/{id}")
-	public String updateBid(@PathVariable("id") Integer id, @Valid BidList bidList, BindingResult result, Model model) {
+	public String updateBid(@PathVariable("id") Integer id, @Valid com.nnk.springboot.domain.BidList bidList, BindingResult result, Model model) {
 		if (result.hasErrors()) {
+			logger.error("Validation errors occured: {}" , result.getAllErrors());
+			
+			model.addAttribute("org.springframework.validation.BindingResult.bidlist", result);
 			model.addAttribute("bidlist", bidList);
 			return "bidlist/update";
-		}
-		bidListService.updateBidList(id, bidList);
+			
+		} else {
+			
+		BidList updatedBid = bidListService.updateBidList(id, bidList);
+		
+		logger.info("New bid was add successfully: " + updatedBid);
 		return "redirect:/bidlist/list";
+		}
 	}
 
 	// Find Bid by Id and delete the bid, return to Bid list

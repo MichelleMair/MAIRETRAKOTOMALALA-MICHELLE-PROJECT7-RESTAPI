@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
@@ -66,9 +67,13 @@ public class TradeControllerTest {
 		Trade trade = new Trade("Account1", "Type1", 100.0);
 		when(tradeService.saveTrade(any(Trade.class))).thenReturn(trade);
 
-		mockMvc.perform(post("/trade/validate").contentType(MediaType.APPLICATION_FORM_URLENCODED)
-				.param("accont", "Account1").param("type", "Type1").param("buy_quantity", "100"))
-				.andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/trade/list"));
+		mockMvc.perform(post("/trade/validate")
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param("account", "Account1")
+				.param("type", "Type1")
+				.param("buy_quantity", "100"))
+			.andExpect(status().is3xxRedirection())
+			.andExpect(view().name("redirect:/trade/list"));
 
 		verify(tradeService).saveTrade(any(Trade.class));
 	}
@@ -86,13 +91,15 @@ public class TradeControllerTest {
 	public void testUpdateTrade() throws Exception {
 		Trade trade = new Trade("Account1", "Type1", 100.0);
 
-		when(tradeService.saveTrade(any(Trade.class))).thenReturn(trade);
+		when(tradeService.updateTrade(Mockito.anyInt(), Mockito.any(Trade.class))).thenReturn(trade);
 
 		mockMvc.perform(post("/trade/update/1").contentType(MediaType.APPLICATION_FORM_URLENCODED)
-				.param("account", "Account1").param("type", "Type1").param("buy_quantity", "100"))
+				.param("account", "Account1")
+				.param("type", "Type1")
+				.param("buy_quantity", "100"))
 				.andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/trade/list"));
 
-		verify(tradeService).saveTrade(any(Trade.class));
+		verify(tradeService).updateTrade(Mockito.anyInt(), Mockito.any(Trade.class));
 	}
 
 	@Test

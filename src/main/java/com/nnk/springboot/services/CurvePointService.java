@@ -10,7 +10,6 @@ import com.nnk.springboot.domain.CurvePoint;
 import com.nnk.springboot.repositories.CurvePointRepository;
 
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.validation.Valid;
 
 @Service
 public class CurvePointService {
@@ -26,11 +25,11 @@ public class CurvePointService {
 		return curvePointRepository.findById(id);
 	}
 
-	public CurvePoint saveCurvePoint(@Valid CurvePoint curvePoint) {
+	public CurvePoint saveCurvePoint(CurvePoint curvePoint) {
 		return curvePointRepository.save(curvePoint);
 	}
 
-	public CurvePoint updateCurvePoint(Integer id, @Valid CurvePoint updatedCurvePoint) {
+	public CurvePoint updateCurvePoint(Integer id, CurvePoint updatedCurvePoint) {
 		return curvePointRepository.findById(id)
 				.map(curvePoint -> {
 					curvePoint.setCurve_id(updatedCurvePoint.getCurve_id());

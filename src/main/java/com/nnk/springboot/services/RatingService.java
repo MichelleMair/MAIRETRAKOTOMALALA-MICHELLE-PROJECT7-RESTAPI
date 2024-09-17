@@ -10,7 +10,6 @@ import com.nnk.springboot.domain.Rating;
 import com.nnk.springboot.repositories.RatingRepository;
 
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.validation.Valid;
 
 @Service
 public class RatingService {
@@ -26,12 +25,12 @@ public class RatingService {
 		return ratingRepository.findById(id);
 	}
 
-	public Rating saveRating(@Valid Rating rating) {
+	public Rating saveRating(Rating rating) {
 		return ratingRepository.save(rating);
 	}
 	
 	
-	public Rating updateRating(Integer id, @Valid Rating updatedRating) {
+	public Rating updateRating(Integer id, Rating updatedRating) {
 		return ratingRepository.findById(id)
 				.map(rating -> {
 					rating.setMoodys_rating(updatedRating.getMoodys_rating());

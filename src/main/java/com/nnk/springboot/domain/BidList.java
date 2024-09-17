@@ -8,7 +8,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 
 @Entity
@@ -21,12 +20,10 @@ public class BidList {
 	private Integer bidlist_id;
 
 	@NotEmpty(message = "Account is mandatory")
-	@NotBlank(message = "The field must not contain only blankspaces")
 	@Column(name = "account", nullable = false, length= 30)
 	private String account;
 
 	@NotEmpty(message = "Type is mandatory")
-	@NotBlank(message = "The field must not contain only blankspaces")
 	@Column(name = "type", nullable = false, length= 30)
 	private String type;
 
@@ -193,24 +190,11 @@ public class BidList {
 	}
 	
 	
-	public BidList(
-			@NotEmpty(message = "Account is mandatory") @NotBlank(message = "The field must not contain only blankspaces") String account,
-			@NotEmpty(message = "Type is mandatory") @NotBlank(message = "The field must not contain only blankspaces") String type,
-			Double bidquantity) {
-		super();
-		this.account = account;
-		this.type = type;
-		this.bidquantity = bidquantity;
-	}
-	
-	
-	public BidList(Integer bidlist_id,
-			@NotEmpty(message = "Account is mandatory") @NotBlank(message = "The field must not contain only blankspaces") String account,
-			@NotEmpty(message = "Type is mandatory") @NotBlank(message = "The field must not contain only blankspaces") String type,
-			Double bidquantity, Double askquantity, Double bid, Double ask, String benchmark, Timestamp bidlist_date,
-			String commentary, String security, String status, String trader, String book, String creation_name,
-			Timestamp creation_date, String revision_name, Timestamp revision_date, String deal_name, String deal_type,
-			String sourcelist_id, String side) {
+	public BidList(Integer bidlist_id, @NotEmpty(message = "Account is mandatory") String account,
+			@NotEmpty(message = "Type is mandatory") String type, Double bidquantity, Double askquantity, Double bid,
+			Double ask, String benchmark, Timestamp bidlist_date, String commentary, String security, String status,
+			String trader, String book, String creation_name, Timestamp creation_date, String revision_name,
+			Timestamp revision_date, String deal_name, String deal_type, String sourcelist_id, String side) {
 		super();
 		this.bidlist_id = bidlist_id;
 		this.account = account;
@@ -234,6 +218,21 @@ public class BidList {
 		this.deal_type = deal_type;
 		this.sourcelist_id = sourcelist_id;
 		this.side = side;
+	}
+	public BidList(@NotEmpty(message = "Account is mandatory") String account,
+			@NotEmpty(message = "Type is mandatory") String type, Double bidquantity) {
+		super();
+		this.account = account;
+		this.type = type;
+		this.bidquantity = bidquantity;
+	}
+	public BidList(Integer bidlist_id, @NotEmpty(message = "Account is mandatory") String account,
+			@NotEmpty(message = "Type is mandatory") String type, Double bidquantity) {
+		super();
+		this.bidlist_id = bidlist_id;
+		this.account = account;
+		this.type = type;
+		this.bidquantity = bidquantity;
 	}
 
 

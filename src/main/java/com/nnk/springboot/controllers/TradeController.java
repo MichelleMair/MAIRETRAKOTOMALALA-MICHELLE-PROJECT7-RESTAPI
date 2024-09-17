@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +19,7 @@ import com.nnk.springboot.services.TradeService;
 import jakarta.validation.Valid;
 
 @Controller
+@Validated
 public class TradeController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(TradeController.class);
@@ -38,7 +40,7 @@ public class TradeController {
 	}
 
 	@PostMapping("/trade/validate")
-	public String validate(@Valid Trade trade, BindingResult result, Model model) {
+	public String validate(@Valid com.nnk.springboot.domain.Trade trade, BindingResult result, Model model) {
 		if (result.hasErrors()) {
 			model.addAttribute("trade", trade);
 			return "trade/add";
@@ -62,7 +64,7 @@ public class TradeController {
 	// Check required fields, if valid call service to update Trade and return
 	// Trade list
 	@PostMapping("/trade/update/{id}")
-	public String updateTrade(@PathVariable("id") Integer id, @Valid Trade trade, BindingResult result, Model model) {
+	public String updateTrade(@PathVariable("id") Integer id, @Valid com.nnk.springboot.domain.Trade trade, BindingResult result, Model model) {
 		if (result.hasErrors()) {
 			model.addAttribute("trade", trade);
 			return "trade/update";

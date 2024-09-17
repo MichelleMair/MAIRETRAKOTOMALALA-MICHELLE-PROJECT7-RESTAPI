@@ -10,7 +10,7 @@ import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.repositories.BidListRepository;
 
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.validation.Valid;
+
 
 @Service
 public class BidListService {
@@ -28,11 +28,11 @@ public class BidListService {
 	}
 	
 	//Enregistrer un nouveau bidlist avec validation 
-	public BidList saveBidList(@Valid BidList bidList) {
+	public BidList saveBidList(BidList bidList) {
 		return bidListRepository.save(bidList);
 	}
 
-	public BidList updateBidList(Integer bidlistId, @Valid BidList updatedBidlist) {
+	public BidList updateBidList(Integer bidlistId, BidList updatedBidlist) {
 		return bidListRepository.findById(bidlistId)
 				.map(bidList -> {
 					bidList.setAccount(updatedBidlist.getAccount());
