@@ -20,7 +20,7 @@ public class CurvePoint {
 	@Column(name = "id")
 	private Integer id;
 
-	@NotNull(message = "Curve ID is mandatory")
+	@NotNull(message = "Curve ID must not be null")
 	@Column(name = "curve_id")
 	@Min(value = 1, message = "Curve ID must be positive and higher than 0")
 	private Integer curve_id;

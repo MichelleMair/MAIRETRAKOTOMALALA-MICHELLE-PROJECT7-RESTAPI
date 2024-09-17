@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +18,6 @@ import com.nnk.springboot.services.CurvePointService;
 import jakarta.validation.Valid;
 
 @Controller
-@Validated
 public class CurveController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(CurveController.class);
@@ -48,12 +46,15 @@ public class CurveController {
 	
 		if (result.hasErrors()) {
 			logger.error("Result for curve point has errors ", result.getAllErrors());			
-			logger.info("Result error: Curve ID : " + curvePoint.getCurve_id());
 
+			model.addAttribute("org.springframework.validation.BindingResult.curvepoint", result);
+			model.addAttribute("curvepoint", curvePoint);
 			return "curvepoint/add";
-		}
-		curvePointService.saveCurvePoint(curvePoint);
+		} else {
+		CurvePoint savedCurve = curvePointService.saveCurvePoint(curvePoint);
+		logger.info("New curve point was add successfully: " + savedCurve);
 		return "redirect:/curvepoint/list";
+		}
 	}
 
 	// Get CurvePoint by Id and to model then show to the form
@@ -64,6 +65,7 @@ public class CurveController {
 			model.addAttribute("curvepoint", curvePoint.get());
 			return "curvepoint/update";
 		} else {
+			logger.error("No curvepoint found with ID: " + id);
 			return "redirect:/curvepoint/list";
 		}
 	}
@@ -74,11 +76,17 @@ public class CurveController {
 	public String updateCurvePoint(@PathVariable("id") Integer id, @Valid com.nnk.springboot.domain.CurvePoint curvePoint, BindingResult result,
 			Model model) {
 		if (result.hasErrors()) {
+			logger.error("Validation errors occured: {}", result.getAllErrors());
+			
+			model.addAttribute("org.springframework.validation.BindingResult.curvepoint", result);
 			model.addAttribute("curvepoint", curvePoint);
 			return "curvepoint/update";
-		}
-		curvePointService.updateCurvePoint(id, curvePoint);
+		} else {
+		CurvePoint updatedCurve = curvePointService.updateCurvePoint(id, curvePoint);
+		
+		logger.info("Curve point was updated successfully" + updatedCurve);
 		return "redirect:/curvepoint/list";
+		}
 	}
 
 	// Find Curve by Id and delete the Curve, return to Curve list
