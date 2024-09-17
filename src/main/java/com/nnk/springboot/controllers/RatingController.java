@@ -1,5 +1,6 @@
 package com.nnk.springboot.controllers;
 
+import java.security.Principal;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -26,7 +27,11 @@ public class RatingController {
 	private RatingService ratingService;
 
 	@GetMapping("/rating/list")
-	public String home(Model model) {
+	public String home(Model model, Principal principal) {
+		if(principal != null) {
+			String username = principal.getName();
+			model.addAttribute("username", username);
+		}
 		model.addAttribute("ratings", ratingService.getAllRatings());
 		return "rating/list";
 	}
@@ -39,28 +44,19 @@ public class RatingController {
 
 	// check data valid and save to db, after saving return Rating list
 	@PostMapping("/rating/validate")
-	public String validate(@Valid Rating rating, BindingResult result, Model model) {
-		logger.info("Moodys: " + rating.getMoodys_rating());
-		logger.info("SandPrating: " + rating.getSandprating());
-		logger.info("Fitch rating: " + rating.getFitch_rating());
-		logger.info("Order Number: " + rating.getOrder_number());
-		
+	public String validate(@Valid com.nnk.springboot.domain.Rating rating, BindingResult result, Model model) {
 		if (result.hasErrors()) {
-			logger.info("if result has errors: Moodys: " + rating.getMoodys_rating());
-			logger.info("if result has errors: SandPrating: " + rating.getSandprating());
-			logger.info("if result has errors: Fitch rating: " + rating.getFitch_rating());
-			logger.info("if result has errors: Order Number: " + rating.getOrder_number());
+			logger.error("Validation errors occured: {} ", result.getAllErrors());
+			model.addAttribute("org.springframework.validation.BindingResult.rating", result);
 			model.addAttribute("rating", rating);
-			
-			logger.info("if result has errors : " + rating);
+
 			return "rating/add";
-		}
-		
-		logger.info("if no errors, save rating  : " + rating);
-		ratingService.saveRating(rating);
-		
-		logger.info("saving successfully   : " + rating);
+		} else {
+
+		Rating addedRating= ratingService.saveRating(rating);
+		logger.info("New rating was add successfully: " + addedRating);
 		return "redirect:/rating/list";
+		}
 	}
 
 	// Get Rating by Id and to model then show to the form
@@ -68,9 +64,12 @@ public class RatingController {
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
 		Optional<Rating> rating = ratingService.getRatingById(id);
 		if (rating.isPresent()) {
+			logger.info("Processing updating a rating with ID: " + id);
+			
 			model.addAttribute("rating", rating.get());
 			return "rating/update";
 		} else {
+			logger.error("No rating found with ID: " + id);
 			return "redirect:/rating/list";
 		}
 	}
@@ -78,14 +77,21 @@ public class RatingController {
 	// Check required fields, if valid call service to update Rating and return
 	// rating list
 	@PostMapping("/rating/update/{id}")
-	public String updateRating(@PathVariable("id") Integer id, @Valid Rating rating, BindingResult result,
+	public String updateRating(@PathVariable("id") Integer id, @Valid com.nnk.springboot.domain.Rating rating, BindingResult result,
 			Model model) {
 		if (result.hasErrors()) {
+			logger.error("Validation errors occured: {}" , result.getAllErrors());
+			
+			model.addAttribute("org.springframework.validation.BindingResult.rating", result);
 			model.addAttribute("rating", rating);
 			return "rating/update";
-		}
-		ratingService.updateRating(id, rating);
+		} else {
+			
+		Rating updatedRating = ratingService.updateRating(id, rating);
+		
+		logger.info("Updating rating successfully" + updatedRating);
 		return "redirect:/rating/list";
+		}
 	}
 
 	// Find Rating by Id and delete the Rating, return to Rating list

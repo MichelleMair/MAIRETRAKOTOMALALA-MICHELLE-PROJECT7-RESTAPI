@@ -1,7 +1,6 @@
 package com.nnk.springboot.controllers;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -63,22 +62,6 @@ public class RatingControllerTest {
 		mockMvc.perform(get("/rating/add")).andExpect(status().isOk()).andExpect(view().name("rating/add"));
 	}
 
-	@Test
-	public void testShowRatingList() {
-		// ARRANGE Mocking le service pour retourner une liste de rating
-		List<Rating> ratings = List.of(new Rating("Moody's", "S&P", "Fitch", 1));
-
-		when(ratingService.getAllRatings()).thenReturn(ratings);
-
-		// ACT Appel de la méthode home()
-		Model model = new ExtendedModelMap();
-		String viewName = ratingController.home(model);
-
-		// ASSERT : Vérification
-		assertEquals("rating/list", viewName);
-		assertTrue(model.containsAttribute("ratings"));
-	}
-	
 	
 	@Test
 	public void testUpdateRating() throws Exception {

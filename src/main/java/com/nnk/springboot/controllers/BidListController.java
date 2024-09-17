@@ -66,13 +66,13 @@ public class BidListController {
 		Optional<BidList> bidList = bidListService.getBidListById(id);
 		if (bidList.isPresent()) {
 			
-			logger.error("Processing updating for bid with ID : " + id);
+			logger.info("Processing updating for bid with ID : " + id);
 			
 			model.addAttribute("bidlist", bidList.get());
 			return "bidlist/update";
 		} else {
 			logger.error("No bid found with ID : " + id);
-			return "bidlist/update";
+			return "redirect:/bidlist/list";
 		}
 	}
 
@@ -91,7 +91,7 @@ public class BidListController {
 			
 		BidList updatedBid = bidListService.updateBidList(id, bidList);
 		
-		logger.info("New bid was add successfully: " + updatedBid);
+		logger.info("Updating bid successfully: " + updatedBid);
 		return "redirect:/bidlist/list";
 		}
 	}

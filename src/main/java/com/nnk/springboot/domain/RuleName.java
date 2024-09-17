@@ -6,7 +6,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 
 @Entity
@@ -19,12 +18,10 @@ public class RuleName {
 	private Integer id;
 
 	@NotEmpty(message = "Name is mandatory")
-	@NotBlank(message = "The field must not contain only blankspaces")
 	@Column(name = "name", nullable = false, length= 255)
 	private String name;
 
 	@NotEmpty(message = "Description is mandatory")
-	@NotBlank(message = "The field must not contain only blankspaces")
 	@Column(name = "description", nullable = false, length= 255)
 	private String description;
 
@@ -95,11 +92,11 @@ public class RuleName {
 		this.sqlpart = sqlpart;
 	}
 
-	
-	public RuleName(Integer id,
-			@NotEmpty(message = "Name is mandatory") @NotBlank(message = "The field must not contain only blankspaces") String name,
-			@NotEmpty(message = "Description is mandatory") @NotBlank(message = "The field must not contain only blankspaces") String description,
-			String json, String template, String sqlstr, String sqlpart) {
+
+
+	public RuleName(Integer id, @NotEmpty(message = "Name is mandatory") String name,
+			@NotEmpty(message = "Description is mandatory") String description, String json, String template,
+			String sqlstr, String sqlpart) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -110,10 +107,11 @@ public class RuleName {
 		this.sqlpart = sqlpart;
 	}
 
-	public RuleName(
-			@NotEmpty(message = "Name is mandatory") @NotBlank(message = "The field must not contain only blankspaces") String name,
-			@NotEmpty(message = "Description is mandatory") @NotBlank(message = "The field must not contain only blankspaces") String description,
-			String json, String template, String sqlstr, String sqlpart) {
+	
+	
+	public RuleName(@NotEmpty(message = "Name is mandatory") String name,
+			@NotEmpty(message = "Description is mandatory") String description, String json, String template,
+			String sqlstr, String sqlpart) {
 		super();
 		this.name = name;
 		this.description = description;

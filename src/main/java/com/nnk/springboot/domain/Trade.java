@@ -9,7 +9,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
@@ -23,13 +22,11 @@ public class Trade {
 	private Integer trade_id;
 
 	@NotEmpty(message = "Account is mandatory")
-	@NotBlank(message = "The field must not contain only blankspaces")
 	@Column(name = "account", nullable = false, length= 255)
 	private String account;
 
 
 	@NotEmpty(message = "Type is mandatory")
-	@NotBlank(message = "The field must not contain only blankspaces")
 	@Column(name = "type", nullable = false, length= 255)
 	private String type;
 
@@ -242,31 +239,13 @@ public class Trade {
 		this.side = side;
 	}
 
-	public Trade(
-			@NotEmpty(message = "Account is mandatory") @NotBlank(message = "The field must not contain only blankspaces") String account,
-			@NotEmpty(message = "Type is mandatory") @NotBlank(message = "The field must not contain only blankspaces") String type) {
-		super();
-		this.account = account;
-		this.type = type;
-	}
-
-	public Trade(
-			@NotEmpty(message = "Account is mandatory") @NotBlank(message = "The field must not contain only blankspaces") String account,
-			@NotEmpty(message = "Type is mandatory") @NotBlank(message = "The field must not contain only blankspaces") String type,
-			@NotNull(message = "Buy Quantity is mandatory") @Min(value = 1, message = "Buy Quantity must be positive and higher than 0") Double buy_quantity) {
-		super();
-		this.account = account;
-		this.type = type;
-		this.buy_quantity = buy_quantity;
-	}
 
 	public Trade() {
 		super();
 	}
 
-	public Trade(Integer trade_id,
-			@NotEmpty(message = "Account is mandatory") @NotBlank(message = "The field must not contain only blankspaces") String account,
-			@NotEmpty(message = "Type is mandatory") @NotBlank(message = "The field must not contain only blankspaces") String type,
+	public Trade(Integer trade_id, @NotEmpty(message = "Account is mandatory") String account,
+			@NotEmpty(message = "Type is mandatory") String type,
 			@NotNull(message = "Buy Quantity is mandatory") @Min(value = 1, message = "Buy Quantity must be positive and higher than 0") Double buy_quantity,
 			Double sell_quantity, Double buy_price, Double sell_price, Timestamp trade_date, String security,
 			String status, String trader, String benchmark, String book, String creation_name, Timestamp creation_date,
@@ -295,6 +274,24 @@ public class Trade {
 		this.sourcelist_id = sourcelist_id;
 		this.side = side;
 	}
+
+	public Trade(@NotEmpty(message = "Account is mandatory") String account,
+			@NotEmpty(message = "Type is mandatory") String type) {
+		super();
+		this.account = account;
+		this.type = type;
+	}
+
+	public Trade(@NotEmpty(message = "Account is mandatory") String account,
+			@NotEmpty(message = "Type is mandatory") String type,
+			@NotNull(message = "Buy Quantity is mandatory") @Min(value = 1, message = "Buy Quantity must be positive and higher than 0") Double buy_quantity) {
+		super();
+		this.account = account;
+		this.type = type;
+		this.buy_quantity = buy_quantity;
+	}
+	
+	
 	
 
 }
