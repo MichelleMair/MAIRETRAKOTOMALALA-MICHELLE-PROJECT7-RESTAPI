@@ -290,8 +290,15 @@ public class Trade {
 		this.type = type;
 		this.buy_quantity = buy_quantity;
 	}
-	
-	
-	
+
+	public Trade(Integer trade_id, @NotEmpty(message = "Account is mandatory") String account,
+			@NotEmpty(message = "Type is mandatory") String type,
+			@NotNull(message = "Buy Quantity is mandatory") @Min(value = 1, message = "Buy Quantity must be positive and higher than 0") Double buy_quantity) {
+		super();
+		this.trade_id = trade_id;
+		this.account = account;
+		this.type = type;
+		this.buy_quantity = buy_quantity;
+	}
 
 }
