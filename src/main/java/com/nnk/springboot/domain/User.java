@@ -6,7 +6,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -20,7 +19,6 @@ public class User {
 	
 
 	@NotEmpty(message = "Username is mandatory")
-	@NotBlank(message = "The field must not contain only blankspaces")
 	@Column(name = "username", nullable = false, length= 255)
 	private String username;
 
@@ -63,18 +61,11 @@ public class User {
 	public void setRole(String role) {
 		this.role = role;
 	}
-	public User(
-			@NotEmpty(message = "Username is mandatory") @NotBlank(message = "The field must not contain only blankspaces") String username,
-			@NotNull(message = "Password is mandatory") @Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$", message = "The password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one digit, and one special character.") String password,
-			String fullname, String role) {
+	
+	public User() {
 		super();
-		this.username = username;
-		this.password = password;
-		this.fullname = fullname;
-		this.role = role;
 	}
-	public User(Integer id,
-			@NotEmpty(message = "Username is mandatory") @NotBlank(message = "The field must not contain only blankspaces") String username,
+	public User(Integer id, @NotEmpty(message = "Username is mandatory") String username,
 			@NotNull(message = "Password is mandatory") @Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$", message = "The password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one digit, and one special character.") String password,
 			String fullname, String role) {
 		super();
@@ -84,9 +75,14 @@ public class User {
 		this.fullname = fullname;
 		this.role = role;
 	}
-	public User() {
+	public User(@NotEmpty(message = "Username is mandatory") String username,
+			@NotNull(message = "Password is mandatory") @Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$", message = "The password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one digit, and one special character.") String password,
+			String fullname, String role) {
 		super();
+		this.username = username;
+		this.password = password;
+		this.fullname = fullname;
+		this.role = role;
 	}
-	
 	
 }
