@@ -107,6 +107,15 @@ public class CurvePoint {
 		this.value = value;
 	}
 
+	public CurvePoint(Integer id,
+			@NotNull(message = "Curve ID must not be null") @Min(value = 1, message = "Curve ID must be positive and higher than 0") Integer curve_id,
+			Double term, Double value) {
+		super();
+		this.id = id;
+		this.curve_id = curve_id;
+		this.term = term;
+		this.value = value;
+	}
 
 
 }
