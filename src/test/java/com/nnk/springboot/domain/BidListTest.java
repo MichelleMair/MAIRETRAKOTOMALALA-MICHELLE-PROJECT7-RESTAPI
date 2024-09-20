@@ -2,6 +2,7 @@ package com.nnk.springboot.domain;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Set;
@@ -24,6 +25,18 @@ public class BidListTest {
 		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 		validator = factory.getValidator();
 		bidList = new BidList();
+	}
+	
+	@Test
+	public void whenCreateBidList_thenCorrect() {
+		bidList.setAccount("AccountTest");
+		bidList.setType("TypeTest");
+		bidList.setBidquantity(10.0);
+		
+		assertNotNull(bidList);
+		assertEquals("AccountTest", bidList.getAccount());
+		assertEquals("TypeTest", bidList.getType());
+		assertEquals(10.0, bidList.getBidquantity(), 0.01);
 	}
 	
 	@Test
