@@ -1,5 +1,7 @@
 package com.nnk.springboot.controllers;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -57,6 +59,7 @@ public class BidListControllerTest {
 		
 		verify(bidListService, times(1)).getAllBidLists();
 	}
+	
 
 	@Test
 	public void testAddBidForm() throws Exception {
@@ -64,6 +67,23 @@ public class BidListControllerTest {
 		.andExpect(status().isOk())
 		.andExpect(view().name("bidlist/add"))
 		.andDo(MockMvcResultHandlers.print());
+	}
+	
+	
+	@Test
+	public void testSaveBidListThrowsException() throws Exception {		
+		when(bidListService.saveBidList(any(BidList.class))).thenThrow(new RuntimeException("Saving bid failed"));
+		
+		mockMvc.perform(post("/bidlist/validate")
+				.param("account", "Account Test")
+				.param("type", "Type test")
+				.param("bidquantity", "10"))
+		.andExpect(status().isOk())
+		.andExpect(model().attributeExists("errorMessage"))
+		.andExpect(model().attribute("errorMessage", "Saving bid failed"))
+		.andExpect(view().name("bidlist/add"));
+		
+		verify(bidListService, times(1)).saveBidList(any(BidList.class));
 	}
 
 	@Test
@@ -88,6 +108,24 @@ public class BidListControllerTest {
 		verify(bidListService, times(1)).getBidListById(1);
 		verify(bidListService, times(1)).updateBidList(Mockito.anyInt(), Mockito.any(BidList.class));
 	}
+	
+	@Test
+	public void testUpdateBidListThrowsException() throws Exception {
+		
+		when(bidListService.updateBidList(anyInt(), any(BidList.class))).thenThrow(new RuntimeException("Updating bid failed"));
+		
+		mockMvc.perform(post("/bidlist/update/1")
+				.param("account", "Account Test")
+				.param("type", "Type test")
+				.param("bidquantity", "10"))
+		.andExpect(status().isOk())
+		.andExpect(model().attributeExists("errorMessage"))
+		.andExpect(model().attribute("errorMessage", "Updating bid failed"))
+		.andExpect(view().name("bidlist/update"));
+		
+		verify(bidListService, times(1)).updateBidList(Mockito.anyInt(), Mockito.any(BidList.class));
+	}
+	
 
 	@Test
 	public void testDeleteBid() throws Exception {
@@ -96,6 +134,18 @@ public class BidListControllerTest {
 		.andExpect(redirectedUrl("/bidlist/list"));
 		
 		verify(bidListService, times(1)).deleteBidList(1);
+	}
+	
+	@Test
+	public void testValidateBidWithValidationErrors() throws Exception {
+		mockMvc.perform(post("/bidlist/validate")
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param("account", "")
+				.param("type", "Type test")
+				.param("bidquantity", "10d"))
+		.andExpect(status().isOk())
+		.andExpect(model().attributeHasFieldErrors("bidlist", "account"))
+		.andExpect(view().name("bidlist/add"));
 	}
 
 }

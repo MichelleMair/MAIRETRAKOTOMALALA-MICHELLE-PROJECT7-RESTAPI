@@ -101,6 +101,18 @@ public class TradeControllerTest {
 
 		verify(tradeService).updateTrade(Mockito.anyInt(), Mockito.any(Trade.class));
 	}
+	
+	@Test
+	public void testUpdateTradeWithValidationErrors() throws Exception {
+		mockMvc.perform(post("/trade/update/1")
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param("account", "")
+				.param("type", "Type1")
+				.param("buy_quantity", "100"))
+		.andExpect(status().isOk())
+		.andExpect(model().attributeHasFieldErrors("trade", "account"))
+		.andExpect(view().name("trade/update"));
+	}
 
 	@Test
 	public void testDeleteBid() throws Exception {

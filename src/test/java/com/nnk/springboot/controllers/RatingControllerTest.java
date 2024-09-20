@@ -98,5 +98,18 @@ public class RatingControllerTest {
 		verify(ratingService, times(1)).saveRating(rating);
 
 	}
+	
+	@Test
+	public void testValidateRatingWithErrors() throws Exception {
+		mockMvc.perform(post("/rating/validate")
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param("moodys_rating", "")
+				.param("sandprating", "S&P")
+				.param("fitch_rating", "Fitch")
+				.param("order_number", "1"))
+		.andExpect(status().isOk())
+		.andExpect(model().attributeHasFieldErrors("rating", "moodys_rating"))
+		.andExpect(view().name("rating/add"));
+	}
 
 }

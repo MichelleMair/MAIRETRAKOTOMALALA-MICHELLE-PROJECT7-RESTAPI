@@ -52,11 +52,15 @@ public class BidListController {
 			model.addAttribute("org.springframework.validation.BindingResult.bidlist", result);
 			model.addAttribute("bidlist", bid);
 			return "bidlist/add";
-		} else {
-		bidListService.saveBidList(bid);
-		
-		logger.info("New bid was add successfully: " + bidListService.saveBidList(bid));
-		return "redirect:/bidlist/list";
+		} 
+		try {
+			bidListService.saveBidList(bid);
+			
+			logger.info("New bid was add successfully: " + bidListService.saveBidList(bid));
+			return "redirect:/bidlist/list";
+		} catch (RuntimeException e) {
+			model.addAttribute("errorMessage", e.getMessage());
+			return "bidlist/add";
 		}
 	}
 
@@ -87,12 +91,16 @@ public class BidListController {
 			model.addAttribute("bidlist", bidList);
 			return "bidlist/update";
 			
-		} else {
+		} 
+		try {
+				
+			BidList updatedBid = bidListService.updateBidList(id, bidList);
 			
-		BidList updatedBid = bidListService.updateBidList(id, bidList);
-		
-		logger.info("Updating bid successfully: " + updatedBid);
-		return "redirect:/bidlist/list";
+			logger.info("Updating bid successfully: " + updatedBid);
+			return "redirect:/bidlist/list";
+		} catch (RuntimeException e){
+			model.addAttribute("errorMessage", e.getMessage());
+			return "bidlist/update";
 		}
 	}
 

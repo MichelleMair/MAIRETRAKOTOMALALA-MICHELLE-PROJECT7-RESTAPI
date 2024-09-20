@@ -75,6 +75,19 @@ public class UserControllerTest {
 		verify(passwordEncoder).encode(any(String.class));
 
 	}
+	
+	@Test
+	public void testValidateUserWithInvalidPassword() throws Exception {
+		mockMvc.perform(post("/user/validate")
+				.param("username", "user")
+				.param("password", "simple")
+				.param("fullname", "User")
+				.param("role", "USER"))
+		.andExpect(status().isOk())
+		.andExpect(model().attributeHasFieldErrors("user", "password"))
+		.andExpect(view().name("user/add"));
+	}
+	
 
 	@Test
 	public void testShowUpdateForm() throws Exception {

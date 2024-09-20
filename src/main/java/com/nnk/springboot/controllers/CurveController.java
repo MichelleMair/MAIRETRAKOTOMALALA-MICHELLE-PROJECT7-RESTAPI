@@ -41,8 +41,6 @@ public class CurveController {
 	// Check data valid and save to db, after saving return Curve list
 	@PostMapping("/curvepoint/validate")
 	public String validate(@Valid com.nnk.springboot.domain.CurvePoint curvePoint, BindingResult result, Model model) {
-		
-		logger.info("Curve ID : " + curvePoint.getCurve_id());
 	
 		if (result.hasErrors()) {
 			logger.error("Result for curve point has errors ", result.getAllErrors());			
@@ -50,10 +48,15 @@ public class CurveController {
 			model.addAttribute("org.springframework.validation.BindingResult.curvepoint", result);
 			model.addAttribute("curvepoint", curvePoint);
 			return "curvepoint/add";
-		} else {
-		CurvePoint savedCurve = curvePointService.saveCurvePoint(curvePoint);
-		logger.info("New curve point was add successfully: " + savedCurve);
-		return "redirect:/curvepoint/list";
+		} 
+		try {
+			CurvePoint savedCurve = curvePointService.saveCurvePoint(curvePoint);
+			logger.info("New curve point was add successfully: " + savedCurve);
+			return "redirect:/curvepoint/list";
+			
+		} catch (RuntimeException e) {
+			model.addAttribute("errorMessage", e.getMessage());
+			return "curvepoint/add";
 		}
 	}
 
@@ -81,11 +84,15 @@ public class CurveController {
 			model.addAttribute("org.springframework.validation.BindingResult.curvepoint", result);
 			model.addAttribute("curvepoint", curvePoint);
 			return "curvepoint/update";
-		} else {
-		CurvePoint updatedCurve = curvePointService.updateCurvePoint(id, curvePoint);
-		
-		logger.info("Curve point was updated successfully" + updatedCurve);
-		return "redirect:/curvepoint/list";
+		} 
+		try {
+			CurvePoint updatedCurve = curvePointService.updateCurvePoint(id, curvePoint);
+			
+			logger.info("Curve point was updated successfully" + updatedCurve);
+			return "redirect:/curvepoint/list";
+		} catch (RuntimeException e) {
+			model.addAttribute("errorMessage", e.getMessage());
+			return "curvepoint/update"; 
 		}
 	}
 

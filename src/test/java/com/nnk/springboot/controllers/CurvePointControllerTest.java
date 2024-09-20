@@ -57,7 +57,26 @@ public class CurvePointControllerTest {
 
 	@Test
 	public void testAddCurvePointForm() throws Exception {
-		mockMvc.perform(get("/curvepoint/add")).andExpect(status().isOk()).andExpect(view().name("curvepoint/add"));
+		mockMvc.perform(get("/curvepoint/add"))
+		.andExpect(status().isOk())
+		.andExpect(view().name("curvepoint/add"));
+	}
+	
+	
+	@Test
+	public void testSaveCurvePointThrowsException() throws Exception {
+		when(curvePointService.saveCurvePoint(Mockito.any(CurvePoint.class))).thenThrow(new RuntimeException("Saving curve point failed"));
+		
+		mockMvc.perform(post("/curvepoint/validate")
+				.param("curve_id", "10")
+				.param("term", "2.0")
+				.param("value", "1.0"))
+				.andExpect(status().isOk())
+				.andExpect(model().attributeExists("errorMessage"))
+				.andExpect(model().attribute("errorMessage", "Saving curve point failed"))
+				.andExpect(view().name("curvepoint/add"));
+		
+		verify(curvePointService, times(1)).saveCurvePoint(Mockito.any(CurvePoint.class));
 	}
 
 	@Test
@@ -83,12 +102,39 @@ public class CurvePointControllerTest {
 		verify(curvePointService, times(1)).getCurvePointById(1);
 		verify(curvePointService, times(1)).updateCurvePoint(Mockito.anyInt(), Mockito.any(CurvePoint.class));
 	}
+	
+	
+	@Test
+	public void testUpdateCurvePointThrowsException() throws Exception {
+		when(curvePointService.updateCurvePoint(Mockito.anyInt(), Mockito.any(CurvePoint.class))).thenThrow(new RuntimeException("Updating curve point failed"));
+		
+		mockMvc.perform(post("/curvepoint/update/1")
+				.param("curve_id", "10")
+				.param("term", "2.0")
+				.param("value", "1.0"))
+		.andExpect(status().isOk())
+		.andExpect(model().attributeExists("errorMessage"))
+		.andExpect(model().attribute("errorMessage", "Updating curve point failed"))
+		.andExpect(view().name("curvepoint/update"));
+		
+		verify(curvePointService, times(1)).updateCurvePoint(Mockito.anyInt(), Mockito.any(CurvePoint.class));
+	}
+	
 
 	@Test
 	public void testDeleteCurveById() throws Exception {
 		mockMvc.perform(get("/curvepoint/delete/1")).andExpect(status().is3xxRedirection())
 				.andExpect(redirectedUrl("/curvepoint/list"));
 		verify(curvePointService, times(1)).deleteCurvePoint(1);
+	}
+	
+	@Test
+	public void testUpdateCurvePointNotFound() throws Exception {
+		when(curvePointService.getCurvePointById(1)).thenReturn(Optional.empty());
+		
+		mockMvc.perform(get("/curvepoint/update/1"))
+		.andExpect(status().is3xxRedirection())
+		.andExpect(view().name("redirect:/curvepoint/list"));
 	}
 
 }

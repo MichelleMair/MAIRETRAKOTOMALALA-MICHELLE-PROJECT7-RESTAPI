@@ -105,5 +105,12 @@ public class RuleNameControllerTest {
 
 		verify(ruleNameService).deleteRuleName(anyInt());
 	}
+	
+	@Test
+	public void testDeleteRulenameNotFound() throws Exception {
+		mockMvc.perform(get("/rulename/delete/99"))
+		.andExpect(status().is3xxRedirection())
+		.andExpect(view().name("redirect:/rulename/list"));
+	}
 
 }
