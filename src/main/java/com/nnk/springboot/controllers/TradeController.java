@@ -50,11 +50,16 @@ public class TradeController {
 			model.addAttribute("org.springframework.validation.BindingResult.trade", result);
 			model.addAttribute("trade", trade);
 			return "trade/add";
-		} else {
-		Trade addedTrade = tradeService.saveTrade(trade);
-		
-		logger.info("New trade was add successfully: " + addedTrade);
-		return "redirect:/trade/list";
+		} 
+		try {
+			Trade addedTrade = tradeService.saveTrade(trade);
+			
+			logger.info("New trade was add successfully: " + addedTrade);
+			return "redirect:/trade/list";
+			
+		} catch (RuntimeException e) {
+			model.addAttribute("errorMessage", e.getMessage());
+			return "trade/add";
 		}
 	}
 
@@ -83,11 +88,15 @@ public class TradeController {
 			model.addAttribute("org.springframework.validation.BindingResult.trade", result);
 			model.addAttribute("trade", trade);
 			return "trade/update";
-		} else {
-		Trade updatedTrade = tradeService.updateTrade(id, trade);
-		
-		logger.info("Updating trade successfully"+ updatedTrade);
-		return "redirect:/trade/list";
+		} 
+		try {
+			Trade updatedTrade = tradeService.updateTrade(id, trade);
+			
+			logger.info("Updating trade successfully"+ updatedTrade);
+			return "redirect:/trade/list";
+		} catch (RuntimeException e) {
+			model.addAttribute("errorMessage", e.getMessage());
+			return "trade/update";
 		}
 	}
 

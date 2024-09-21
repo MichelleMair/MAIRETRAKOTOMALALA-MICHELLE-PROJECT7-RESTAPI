@@ -2,6 +2,7 @@ package com.nnk.springboot.controllers;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -90,6 +91,24 @@ public class UserControllerTest {
 	
 
 	@Test
+	public void testSaveUserThrowsException() throws Exception {
+		when(userService.saveUser(any(User.class))).thenThrow(new RuntimeException("Saving user failed"));
+		
+		mockMvc.perform(post("/user/validate")
+				.param("username", "user")
+				.param("password", "Password@2024")
+				.param("fullname", "User")
+				.param("role", "USER"))
+		.andExpect(status().isOk())
+		.andExpect(model().attributeExists("errorMessage"))
+		.andExpect(model().attribute("errorMessage", "Saving user failed"))
+		.andExpect(view().name("user/add"));
+		
+		verify(userService, times(1)).saveUser(Mockito.any(User.class));
+	}
+	
+	
+	@Test
 	public void testShowUpdateForm() throws Exception {
 		User user = new User("user", "password", "User", "USER");
 
@@ -117,6 +136,24 @@ public class UserControllerTest {
 
 		verify(userService).updateUser(Mockito.anyInt(), Mockito.any(User.class));
 		verify(passwordEncoder).encode(any(String.class));
+	}
+	
+	
+	@Test
+	public void testUpdateUserThrowsException() throws Exception {
+		when(userService.updateUser(Mockito.anyInt(), Mockito.any(User.class))).thenThrow(new RuntimeException("Updating user failed"));
+	
+		mockMvc.perform(post("/user/update/1")
+				.param("username", "user")
+				.param("password", "Password@2024")
+				.param("fullname", "User")
+				.param("role", "USER"))
+		.andExpect(status().isOk())
+		.andExpect(model().attributeExists("errorMessage"))
+		.andExpect(model().attribute("errorMessage", "Updating user failed"))
+		.andExpect(view().name("user/update"));
+		
+		verify(userService, times(1)).updateUser(Mockito.anyInt(), Mockito.any(User.class));
 	}
 
 	@Test

@@ -51,11 +51,15 @@ public class RatingController {
 			model.addAttribute("rating", rating);
 
 			return "rating/add";
-		} else {
-
-		Rating addedRating= ratingService.saveRating(rating);
-		logger.info("New rating was add successfully: " + addedRating);
-		return "redirect:/rating/list";
+		} 
+		try {
+	
+			Rating addedRating= ratingService.saveRating(rating);
+			logger.info("New rating was add successfully: " + addedRating);
+			return "redirect:/rating/list";
+		} catch (RuntimeException e) {
+			model.addAttribute("errorMessage", e.getMessage());
+			return "rating/add";
 		}
 	}
 
@@ -85,14 +89,19 @@ public class RatingController {
 			model.addAttribute("org.springframework.validation.BindingResult.rating", result);
 			model.addAttribute("rating", rating);
 			return "rating/update";
-		} else {
+		} 
+		try {
+				
+			Rating updatedRating = ratingService.updateRating(id, rating);
 			
-		Rating updatedRating = ratingService.updateRating(id, rating);
-		
-		logger.info("Updating rating successfully" + updatedRating);
-		return "redirect:/rating/list";
+			logger.info("Updating rating successfully" + updatedRating);
+			return "redirect:/rating/list";
+			
+		} catch (RuntimeException e) {
+			model.addAttribute("errorMessage", e.getMessage());
+			return "rating/update";
+			}
 		}
-	}
 
 	// Find Rating by Id and delete the Rating, return to Rating list
 	@GetMapping("/rating/delete/{id}")

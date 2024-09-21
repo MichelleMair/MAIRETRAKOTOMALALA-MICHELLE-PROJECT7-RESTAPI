@@ -2,6 +2,7 @@ package com.nnk.springboot.controllers;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -77,6 +78,22 @@ public class TradeControllerTest {
 
 		verify(tradeService).saveTrade(any(Trade.class));
 	}
+	
+	@Test
+	public void testSaveTradeThrowsException() throws Exception {
+		when(tradeService.saveTrade(any(Trade.class))).thenThrow(new RuntimeException("Saving trade failed"));
+		
+		mockMvc.perform(post("/trade/validate")
+				.param("account", "Account1")
+				.param("type", "Type1")
+				.param("buy_quantity", "100"))
+		.andExpect(status().isOk())
+		.andExpect(model().attributeExists("errorMessage"))
+		.andExpect(model().attribute("errorMessage", "Saving trade failed"))
+		.andExpect(view().name("trade/add"));
+		
+		verify(tradeService, times(1)).saveTrade(any(Trade.class));
+	}
 
 	@Test
 	public void testShowUpdateForm() throws Exception {
@@ -112,6 +129,23 @@ public class TradeControllerTest {
 		.andExpect(status().isOk())
 		.andExpect(model().attributeHasFieldErrors("trade", "account"))
 		.andExpect(view().name("trade/update"));
+	}
+	
+	@Test
+	public void testUpdateTradeThrowsException() throws Exception {
+		when(tradeService.updateTrade(Mockito.anyInt(), Mockito.any(Trade.class))).thenThrow(new RuntimeException("Updating trade failed"));
+	
+		mockMvc.perform(post("/trade/update/1")
+				.param("account", "Account1")
+				.param("type", "Type1")
+				.param("buy_quantity", "100"))
+		.andExpect(status().isOk())
+		.andExpect(model().attributeExists("errorMessage"))
+		.andExpect(model().attribute("errorMessage", "Updating trade failed"))
+		.andExpect(view().name("trade/update"));
+		
+		verify(tradeService, times(1)).updateTrade(Mockito.anyInt(), Mockito.any(Trade.class));
+		
 	}
 
 	@Test

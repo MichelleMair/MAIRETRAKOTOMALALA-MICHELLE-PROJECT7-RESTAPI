@@ -50,11 +50,15 @@ public class RuleNameController {
 			model.addAttribute("org.springframework.validation.BindingResult.rulename", result);
 			model.addAttribute("rulename", ruleName);
 			return "rulename/add";
-		} else {
-		RuleName addedRulename = ruleNameService.saveRuleName(ruleName);
-		
-		logger.info("New RuleName was add successfully: " + addedRulename);
-		return "redirect:/rulename/list";
+		} 
+		try {
+			RuleName addedRulename = ruleNameService.saveRuleName(ruleName);
+			
+			logger.info("New RuleName was add successfully: " + addedRulename);
+			return "redirect:/rulename/list";
+		} catch (RuntimeException e) {
+			model.addAttribute("errorMessage", e.getMessage());
+			return "rulename/add";
 		}
 	}
 
@@ -81,11 +85,15 @@ public class RuleNameController {
 			model.addAttribute("org.springframework.validation.BindingResult.rulename", result);
 			model.addAttribute("rulename", ruleName);
 			return "rulename/update";
-		} else {
-		RuleName updatedRulename = ruleNameService.updateRuleName(id, ruleName);
-		
-		logger.info("Updating rulename successfully: " + updatedRulename);
-		return "redirect:/rulename/list";
+		} 
+		try {
+			RuleName updatedRulename = ruleNameService.updateRuleName(id, ruleName);
+			
+			logger.info("Updating rulename successfully: " + updatedRulename);
+			return "redirect:/rulename/list";
+		} catch (RuntimeException e) {
+			model.addAttribute("errorMessage", e.getMessage());
+			return "rulename/update";
 		}
 	}
 

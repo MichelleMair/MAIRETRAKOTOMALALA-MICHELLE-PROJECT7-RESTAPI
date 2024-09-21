@@ -80,6 +80,23 @@ public class RatingControllerTest {
 		
 		verify(ratingService).updateRating(Mockito.anyInt(), Mockito.any(Rating.class));
 	}
+	
+	@Test
+	public void testUpdateRatingThrowsException() throws Exception {
+		when(ratingService.updateRating(Mockito.anyInt(), Mockito.any(Rating.class))).thenThrow(new RuntimeException("Updating rating failed"));
+		
+		mockMvc.perform(post("/rating/update/1")
+				.param("moodys_rating", "Moody's")
+				.param("sandprating", "S&P")
+				.param("fitch_rating", "Fitch")
+				.param("order_number", "1"))
+		.andExpect(status().isOk())
+		.andExpect(model().attributeExists("errorMessage"))
+		.andExpect(model().attribute("errorMessage", "Updating rating failed"))
+		.andExpect(view().name("rating/update"));
+		
+		verify(ratingService, times(1)).updateRating(Mockito.anyInt(), Mockito.any(Rating.class));
+	}
 
 	@Test
 	public void testAddNewRating() {
@@ -97,6 +114,23 @@ public class RatingControllerTest {
 		assertEquals("redirect:/rating/list", view);
 		verify(ratingService, times(1)).saveRating(rating);
 
+	}
+	
+	@Test
+	public void testSaveRatingThrowsException() throws Exception {
+		when(ratingService.saveRating(Mockito.any(Rating.class))).thenThrow(new RuntimeException("Saving rating failed"));
+		
+		mockMvc.perform(post("/rating/validate")
+				.param("moodys_rating", "Moody's")
+				.param("sandprating", "S&P")
+				.param("fitch_rating", "Fitch")
+				.param("order_number", "1"))
+		.andExpect(status().isOk())
+		.andExpect(model().attributeExists("errorMessage"))
+		.andExpect(model().attribute("errorMessage", "Saving rating failed"))
+		.andExpect(view().name("rating/add"));
+
+		verify(ratingService, times(1)).saveRating(Mockito.any(Rating.class));
 	}
 	
 	@Test

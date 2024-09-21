@@ -45,10 +45,15 @@ public class UserController {
 			model.addAttribute("user", user);
 			return "user/add";
 		}
-		user.setPassword(passwordEncoder.encode(user.getPassword()));
-		userService.saveUser(user);
-		model.addAttribute("users", userService.getAllUsers());
-		return "redirect:/user/list";
+		try {
+			user.setPassword(passwordEncoder.encode(user.getPassword()));
+			userService.saveUser(user);
+			model.addAttribute("users", userService.getAllUsers());
+			return "redirect:/user/list";
+		} catch (RuntimeException e) {
+			model.addAttribute("errorMessage", e.getMessage());
+			return "user/add";
+		}
 	}
 
 	@GetMapping("/user/update/{id}")
@@ -66,11 +71,15 @@ public class UserController {
 			model.addAttribute("user", user);
 			return "user/update";
 		}
-
-		user.setPassword(passwordEncoder.encode(user.getPassword()));
-		userService.updateUser(id, user);
-		model.addAttribute("users", userService.getAllUsers());
-		return "redirect:/user/list";
+		try {
+			user.setPassword(passwordEncoder.encode(user.getPassword()));
+			userService.updateUser(id, user);
+			model.addAttribute("users", userService.getAllUsers());
+			return "redirect:/user/list";
+		} catch (RuntimeException e) {
+			model.addAttribute("errorMessage", e.getMessage());
+			return "user/update";
+		}
 	}
 
 	@GetMapping("/user/delete/{id}")

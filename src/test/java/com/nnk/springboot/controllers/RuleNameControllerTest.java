@@ -2,6 +2,7 @@ package com.nnk.springboot.controllers;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -68,11 +69,29 @@ public class RuleNameControllerTest {
 
 		mockMvc = MockMvcBuilders.standaloneSetup(ruleNameController).build();
 
-		mockMvc.perform(post("/rulename/validate").contentType(MediaType.APPLICATION_FORM_URLENCODED)
-				.param("name", "Rule1").param("description", "Description1")).andExpect(status().is3xxRedirection())
-				.andExpect(view().name("redirect:/rulename/list"));
+		mockMvc.perform(post("/rulename/validate")
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param("name", "Rule1")
+				.param("description", "Description1"))
+		.andExpect(status().is3xxRedirection())
+		.andExpect(view().name("redirect:/rulename/list"));
 
 		verify(ruleNameService).saveRuleName(any(RuleName.class));
+	}
+	
+	@Test
+	public void testSaveRuleNameThrowsException() throws Exception {
+		when(ruleNameService.saveRuleName(any(RuleName.class))).thenThrow(new RuntimeException("Saving rulename failed"));
+	
+		mockMvc.perform(post("/rulename/validate")
+				.param("name", "Rule1")
+				.param("description", "Description1"))
+		.andExpect(status().isOk())
+		.andExpect(model().attributeExists("errorMessage"))
+		.andExpect(model().attribute("errorMessage", "Saving rulename failed"))
+		.andExpect(view().name("rulename/add"));
+	
+		verify(ruleNameService, times(1)).saveRuleName(any(RuleName.class));
 	}
 
 	@Test
@@ -82,7 +101,8 @@ public class RuleNameControllerTest {
 		when(ruleNameService.getRuleNameById(anyInt())).thenReturn(Optional.of(ruleName));
 
 		mockMvc.perform(get("/rulename/update/1")).andExpect(status().isOk())
-				.andExpect(model().attributeExists("rulename")).andExpect(view().name("rulename/update"));
+				.andExpect(model().attributeExists("rulename"))
+				.andExpect(view().name("rulename/update"));
 	}
 
 	@Test
@@ -91,17 +111,36 @@ public class RuleNameControllerTest {
 		
 		when(ruleNameService.updateRuleName(Mockito.anyInt(), Mockito.any(RuleName.class))).thenReturn(rulename);
 		
-		mockMvc.perform(post("/rulename/update/1").contentType(MediaType.APPLICATION_FORM_URLENCODED)
-				.param("name", "Rule1").param("description", "Description1")).andExpect(status().is3xxRedirection())
-				.andExpect(view().name("redirect:/rulename/list"));
+		mockMvc.perform(post("/rulename/update/1")
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param("name", "Rule1")
+				.param("description", "Description1"))
+		.andExpect(status().is3xxRedirection())
+		.andExpect(view().name("redirect:/rulename/list"));
 
 		verify(ruleNameService).updateRuleName(Mockito.anyInt(), Mockito.any(RuleName.class));
+	}
+	
+	@Test
+	public void testUpdateRuleNameThrowsException() throws Exception {
+		when(ruleNameService.updateRuleName(Mockito.anyInt(), any(RuleName.class))).thenThrow(new RuntimeException("Updating rating failed"));
+		
+		mockMvc.perform(post("/rulename/update/1")
+				.param("name", "Rule1")
+				.param("description", "Description1"))
+		.andExpect(status().isOk())
+		.andExpect(model().attributeExists("errorMessage"))
+		.andExpect(model().attribute("errorMessage", "Updating rating failed"))
+		.andExpect(view().name("rulename/update"));
+		
+		verify(ruleNameService, times(1)).updateRuleName(Mockito.anyInt(), Mockito.any(RuleName.class));
 	}
 
 	@Test
 	public void testDeleteRuleName() throws Exception {
-		mockMvc.perform(get("/rulename/delete/1")).andExpect(status().is3xxRedirection())
-				.andExpect(view().name("redirect:/rulename/list"));
+		mockMvc.perform(get("/rulename/delete/1"))
+		.andExpect(status().is3xxRedirection())
+		.andExpect(view().name("redirect:/rulename/list"));
 
 		verify(ruleNameService).deleteRuleName(anyInt());
 	}
