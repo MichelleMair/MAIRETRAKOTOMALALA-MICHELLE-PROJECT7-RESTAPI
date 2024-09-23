@@ -9,6 +9,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 
 @Entity
@@ -21,14 +22,17 @@ public class Rating {
 	private Integer id;
 	
 	@NotEmpty(message = "Moody's rating is mandatory")
+	@Size(max= 255, message= "Moody's cannot be longer than 255 characters")
 	@Column(name = "moodys_rating", nullable = false, length= 255)
 	private String moodys_rating;
 	
 	@NotEmpty(message = "S&P Rating is mandatory")
+	@Size(max= 255, message= "S&P Rating cannot be longer than 255 characters")
 	@Column(name = "sandprating", nullable = false, length= 255)
 	private String sandprating;
 	
 	@NotEmpty(message = "Fitch Rating is mandatory")
+	@Size(max= 255, message= "Fitch rating cannot be longer than 255 characters")
 	@Column(name = "fitch_rating", nullable = false, length= 255)
 	private String fitch_rating;
 	

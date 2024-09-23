@@ -62,7 +62,7 @@ public class TradeTest {
 	}
 	
 	@Test
-	void tradeBuyQuantity_shouldThrowValidationError_whenEmpty() {
+	void tradeBuyQuantity_shouldThrowValidationError_WhenEmpty() {
 		trade.setAccount("AccountTest");
 		trade.setType("TypeTest");
 		trade.setBuy_quantity(null);
@@ -72,4 +72,17 @@ public class TradeTest {
 		assertFalse(violations.isEmpty());
 		assertEquals(1, violations.size());
 	}
+	
+	@Test
+	void tradeBuyQuantity_shouldThrowValidationError_WhenNegative() {
+		trade.setAccount("AccountTest");
+		trade.setType("TypeTest");
+		trade.setBuy_quantity(-5.0);
+		
+		Set<ConstraintViolation<Trade>> violations = validator.validate(trade);
+		
+		assertFalse(violations.isEmpty());
+		assertEquals(1, violations.size());
+	}
+	
 }

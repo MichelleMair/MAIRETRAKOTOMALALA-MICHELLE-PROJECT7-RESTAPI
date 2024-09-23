@@ -67,4 +67,17 @@ public class UserTest {
 		
 		assertFalse(violations.isEmpty());
 	}
+	
+	@Test
+	void userUsername_ShouldThrowValidationError_WhenTooLong() {
+		user.setUsername("a".repeat(300));
+		user.setPassword("Password123!");
+		
+		Set<ConstraintViolation<User>> violations = validator.validate(user);	
+		
+		assertFalse(violations.isEmpty());
+		assertEquals(1, violations.size());
+		assertTrue(violations.stream().anyMatch(v -> v.getMessage().equals("Username cannot be longer than 255 characters")));
+	}
+	
 }

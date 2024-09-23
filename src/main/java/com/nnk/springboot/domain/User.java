@@ -9,6 +9,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "users")
@@ -19,6 +20,7 @@ public class User {
 	
 
 	@NotEmpty(message = "Username is mandatory")
+	@Size(max= 255, message= "Username cannot be longer than 255 characters")
 	@Column(name = "username", nullable = false, length= 255)
 	private String username;
 

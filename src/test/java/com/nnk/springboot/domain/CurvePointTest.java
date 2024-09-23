@@ -44,4 +44,14 @@ public class CurvePointTest {
 		assertFalse(violations.isEmpty());
 		assertEquals(1, violations.size());
 	}
+	
+	@Test
+	void curvePointCurveId_ShouldThrowValidationError_WhenNegative() {
+		curvePoint.setCurve_id(-1);
+		
+		Set<ConstraintViolation<CurvePoint>> violations = validator.validate(curvePoint);
+		
+		assertFalse(violations.isEmpty());
+		assertEquals(1, violations.size());
+	}
 }

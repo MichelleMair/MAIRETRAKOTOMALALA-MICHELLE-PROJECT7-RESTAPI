@@ -73,5 +73,17 @@ public class BidListTest {
 		assertFalse(violations.isEmpty());
 		assertEquals(1, violations.size());
 	}
+	
+	@Test
+	void bidListBidQuantity_shouldThrowValidationError_WhenNegative() {
+		bidList.setAccount("AccountTest");
+		bidList.setType("TypeTest");
+		bidList.setBidquantity(-10.0);
+		
+		Set<ConstraintViolation<BidList>> violations = validator.validate(bidList);
+		
+		assertFalse(violations.isEmpty());
+		assertEquals(1, violations.size());
+	}
 
 }

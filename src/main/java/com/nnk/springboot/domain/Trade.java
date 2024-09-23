@@ -11,6 +11,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "trade")
@@ -22,11 +23,13 @@ public class Trade {
 	private Integer trade_id;
 
 	@NotEmpty(message = "Account is mandatory")
+	@Size(max= 255, message= "Account cannot be longer than 255 characters")
 	@Column(name = "account", nullable = false, length= 255)
 	private String account;
 
 
 	@NotEmpty(message = "Type is mandatory")
+	@Size(max= 255, message= "Type cannot be longer than 255 characters")
 	@Column(name = "type", nullable = false, length= 255)
 	private String type;
 

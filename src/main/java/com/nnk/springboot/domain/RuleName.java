@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "rulename")
@@ -18,10 +19,12 @@ public class RuleName {
 	private Integer id;
 
 	@NotEmpty(message = "Name is mandatory")
+	@Size(max= 255, message= "Name cannot be longer than 255 characters")
 	@Column(name = "name", nullable = false, length= 255)
 	private String name;
 
 	@NotEmpty(message = "Description is mandatory")
+	@Size(max= 255, message= "Description cannot be longer than 255 characters")
 	@Column(name = "description", nullable = false, length= 255)
 	private String description;
 

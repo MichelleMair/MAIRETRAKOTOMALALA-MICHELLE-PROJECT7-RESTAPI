@@ -8,7 +8,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "bidlist")
@@ -27,6 +29,9 @@ public class BidList {
 	@Column(name = "type", nullable = false, length= 30)
 	private String type;
 
+	@NotNull(message = "Bid Quantity is mandatory")
+	@Column(name ="bidquantity")
+	@Min(value = 1, message = "Bid Quantity must be positive and higher than 0")
 	private Double bidquantity;
 
 	private Double askquantity;
@@ -188,13 +193,30 @@ public class BidList {
 	public BidList() {
 		super();
 	}
-	
-	
 	public BidList(Integer bidlist_id, @NotEmpty(message = "Account is mandatory") String account,
-			@NotEmpty(message = "Type is mandatory") String type, Double bidquantity, Double askquantity, Double bid,
-			Double ask, String benchmark, Timestamp bidlist_date, String commentary, String security, String status,
-			String trader, String book, String creation_name, Timestamp creation_date, String revision_name,
-			Timestamp revision_date, String deal_name, String deal_type, String sourcelist_id, String side) {
+			@NotEmpty(message = "Type is mandatory") String type,
+			@NotNull(message = "Bid Quantity is mandatory") @Min(value = 1, message = "Bid Quantity must be positive and higher than 0") Double bidquantity) {
+		super();
+		this.bidlist_id = bidlist_id;
+		this.account = account;
+		this.type = type;
+		this.bidquantity = bidquantity;
+	}
+	public BidList(@NotEmpty(message = "Account is mandatory") String account,
+			@NotEmpty(message = "Type is mandatory") String type,
+			@NotNull(message = "Bid Quantity is mandatory") @Min(value = 1, message = "Bid Quantity must be positive and higher than 0") Double bidquantity) {
+		super();
+		this.account = account;
+		this.type = type;
+		this.bidquantity = bidquantity;
+	}
+	public BidList(Integer bidlist_id, @NotEmpty(message = "Account is mandatory") String account,
+			@NotEmpty(message = "Type is mandatory") String type,
+			@NotNull(message = "Bid Quantity is mandatory") @Min(value = 1, message = "Bid Quantity must be positive and higher than 0") Double bidquantity,
+			Double askquantity, Double bid, Double ask, String benchmark, Timestamp bidlist_date, String commentary,
+			String security, String status, String trader, String book, String creation_name, Timestamp creation_date,
+			String revision_name, Timestamp revision_date, String deal_name, String deal_type, String sourcelist_id,
+			String side) {
 		super();
 		this.bidlist_id = bidlist_id;
 		this.account = account;
@@ -219,21 +241,5 @@ public class BidList {
 		this.sourcelist_id = sourcelist_id;
 		this.side = side;
 	}
-	public BidList(@NotEmpty(message = "Account is mandatory") String account,
-			@NotEmpty(message = "Type is mandatory") String type, Double bidquantity) {
-		super();
-		this.account = account;
-		this.type = type;
-		this.bidquantity = bidquantity;
-	}
-	public BidList(Integer bidlist_id, @NotEmpty(message = "Account is mandatory") String account,
-			@NotEmpty(message = "Type is mandatory") String type, Double bidquantity) {
-		super();
-		this.bidlist_id = bidlist_id;
-		this.account = account;
-		this.type = type;
-		this.bidquantity = bidquantity;
-	}
-
-
+	
 }

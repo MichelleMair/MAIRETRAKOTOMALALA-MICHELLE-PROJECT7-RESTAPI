@@ -57,4 +57,15 @@ public class RuleNameTest {
 		assertFalse(violations.isEmpty());
 		assertEquals(1, violations.size());
 	}
+	
+	@Test
+	void ruleNameJsonField_ShouldNotThrowVAlidationError_WhenNull() {
+		ruleName.setName("Nametest");
+		ruleName.setDescription("Desctest");
+		ruleName.setJson(null);
+		
+		Set<ConstraintViolation<RuleName>> violations = validator.validate(ruleName);
+		
+		assertTrue(violations.isEmpty());
+	}
 }
