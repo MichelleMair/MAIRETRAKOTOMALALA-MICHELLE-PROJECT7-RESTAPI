@@ -27,7 +27,7 @@ public class BidListService {
 		return bidListRepository.findById(bidListId);
 	}
 	
-	//Enregistrer un nouveau bidlist avec validation 
+	//Save a new bidlist record to the database 
 	public BidList saveBidList(BidList bidList) {
 		return bidListRepository.save(bidList);
 	}

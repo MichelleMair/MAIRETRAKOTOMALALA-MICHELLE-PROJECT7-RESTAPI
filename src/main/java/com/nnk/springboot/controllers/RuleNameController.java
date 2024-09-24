@@ -26,6 +26,7 @@ public class RuleNameController {
 	@Autowired
 	private RuleNameService ruleNameService;
 
+	//Displays the list of rulename records 
 	@GetMapping("/rulename/list")
 	public String home(Model model, Principal principal) {
 		if(principal != null) {
@@ -36,12 +37,14 @@ public class RuleNameController {
 		return "rulename/list";
 	}
 
+	//Displays the form for adding a new RuleName
 	@GetMapping("/rulename/add")
 	public String addRuleForm(Model model) {
 		model.addAttribute("rulename", new RuleName());
 		return "rulename/add";
 	}
 
+	//Validates and processes the addition of a new rulename
 	@PostMapping("/rulename/validate")
 	public String validate(@Valid com.nnk.springboot.domain.RuleName ruleName, BindingResult result, Model model) {
 		if (result.hasErrors()) {
@@ -62,6 +65,7 @@ public class RuleNameController {
 		}
 	}
 
+	//Displays the form for updating an existing rulename
 	@GetMapping("/rulename/update/{id}")
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
 		Optional<RuleName> rulename = ruleNameService.getRuleNameById(id);
@@ -75,7 +79,8 @@ public class RuleNameController {
 			return "redirect:/rulename/list";
 		}
 	}
-
+	
+	//Validates and processes for updating an existing rulename
 	@PostMapping("/rulename/update/{id}")
 	public String updateRuleName(@PathVariable("id") Integer id, @Valid com.nnk.springboot.domain.RuleName ruleName, BindingResult result,
 			Model model) {
@@ -97,6 +102,7 @@ public class RuleNameController {
 		}
 	}
 
+	//Deletes a rulename record find by id 
 	@GetMapping("/rulename/delete/{id}")
 	public String deleteRuleName(@PathVariable("id") Integer id, Model model) {
 		try {
