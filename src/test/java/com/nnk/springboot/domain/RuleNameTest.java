@@ -48,6 +48,17 @@ public class RuleNameTest {
 	}
 	
 	@Test
+	void rulename_shouldNotBeNull() {
+		ruleName.setName(null);
+		ruleName.setDescription(null);
+		
+		Set<ConstraintViolation<RuleName>> violations = validator.validate(ruleName);
+		
+		assertFalse(violations.isEmpty());
+		assertEquals(2, violations.size());
+	}
+	
+	@Test
 	void rulenameDescription_shouldNotBeNullOrEmpty() {
 		ruleName.setName("Nametest");
 		ruleName.setDescription("");
@@ -87,6 +98,17 @@ public class RuleNameTest {
 	void ruleNameName_ShouldThrowValidationError_WhenTooLong() {
 		ruleName.setName("a".repeat(256));
 		ruleName.setDescription("Desctest");
+		
+		Set<ConstraintViolation<RuleName>> violations = validator.validate(ruleName);
+		
+		assertFalse(violations.isEmpty());
+		assertEquals(1, violations.size());
+	}
+	
+	@Test
+	void ruleNameDescription_ShouldThrowValidationError_WhenTooLong() {
+		ruleName.setName("Nametest");
+		ruleName.setDescription("a".repeat(256));
 		
 		Set<ConstraintViolation<RuleName>> violations = validator.validate(ruleName);
 		

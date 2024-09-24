@@ -15,7 +15,7 @@ CREATE TABLE BidList (
   bidlist_id INT NOT NULL AUTO_INCREMENT,
   account VARCHAR(30) NOT NULL,
   type VARCHAR(30) NOT NULL,
-  bidquantity DOUBLE,
+  bidquantity DOUBLE NOT NULL,
   askquantity DOUBLE,
   bid DOUBLE ,
   ask DOUBLE,
@@ -96,7 +96,7 @@ CREATE TABLE Users (
   id INT NOT NULL AUTO_INCREMENT,
   username VARCHAR(125) NOT NULL,
   password VARCHAR(255) NOT NULL,
-  fullname VARCHAR(125) NOT NULL,
+  fullname VARCHAR(125),
   role VARCHAR(125) NOT NULL,
 
   PRIMARY KEY (id)

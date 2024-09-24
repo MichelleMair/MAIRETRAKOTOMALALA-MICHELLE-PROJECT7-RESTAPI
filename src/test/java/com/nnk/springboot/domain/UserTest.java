@@ -105,4 +105,15 @@ public class UserTest {
 		assertTrue(violations.isEmpty());
 	}
 
+	
+	@Test
+	void userPassword_ShouldAllowSpecialCharacters() {
+		user.setUsername("Usertest");
+		user.setPassword("Password123! #$%");
+		user.setRole("ADMIN");
+		
+		Set<ConstraintViolation<User>> violations = validator.validate(user);
+		
+		assertTrue(violations.isEmpty());
+	}
 }

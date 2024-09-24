@@ -26,7 +26,12 @@ public class CurvePoint {
 	private Integer curve_id;
 
 	private Timestamp as_of_date;
+	
+	@NotNull(message = "Term must not be null")
+	@Column(name ="term")
+	@Min(value = 1, message = "Term must be positive and higher than 0")
 	private Double term;
+	
 	private Double value;
 
 	private Timestamp creation_date;
@@ -88,7 +93,7 @@ public class CurvePoint {
 
 	public CurvePoint(Integer id,
 			@NotNull(message = "Curve ID is mandatory") @Min(value = 1, message = "Curve ID must be positive and higher than 0") Integer curve_id,
-			Timestamp as_of_date, Double term, Double value, Timestamp creation_date) {
+			Timestamp as_of_date, @NotNull(message = "Term must not be null") @Min(value = 1, message = "Term must be positive and higher than 0") Double term, Double value, Timestamp creation_date) {
 		super();
 		this.id = id;
 		this.curve_id = curve_id;
@@ -100,7 +105,7 @@ public class CurvePoint {
 
 	public CurvePoint(
 			@NotNull(message = "Curve ID is mandatory") @Min(value = 1, message = "Curve ID must be positive and higher than 0") Integer curve_id,
-			Double term, Double value) {
+			@NotNull(message = "Term must not be null") @Min(value = 1, message = "Term must be positive and higher than 0") Double term, Double value) {
 		super();
 		this.curve_id = curve_id;
 		this.term = term;
@@ -109,7 +114,7 @@ public class CurvePoint {
 
 	public CurvePoint(Integer id,
 			@NotNull(message = "Curve ID must not be null") @Min(value = 1, message = "Curve ID must be positive and higher than 0") Integer curve_id,
-			Double term, Double value) {
+			@NotNull(message = "Term must not be null") @Min(value = 1, message = "Term must be positive and higher than 0") Double term, Double value) {
 		super();
 		this.id = id;
 		this.curve_id = curve_id;

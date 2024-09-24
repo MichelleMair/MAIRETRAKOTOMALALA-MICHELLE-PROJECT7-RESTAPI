@@ -1,4 +1,4 @@
-package com.nnk.springboot.services;
+package com.nnk.springboot.config;
 
 import java.util.Collection;
 import java.util.List;
@@ -15,7 +15,7 @@ import com.nnk.springboot.domain.User;
 import com.nnk.springboot.repositories.UserRepository;
 
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService {
+public class CustomUserDetailsService implements UserDetailsService {
 
 	@Autowired
 	UserRepository userRepository;

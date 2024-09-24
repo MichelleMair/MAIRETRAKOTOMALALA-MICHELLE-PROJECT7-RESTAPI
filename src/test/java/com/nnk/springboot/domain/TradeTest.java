@@ -2,8 +2,10 @@ package com.nnk.springboot.domain;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.sql.Timestamp;
 import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -35,6 +37,18 @@ public class TradeTest {
 		Set<ConstraintViolation<Trade>> violations = validator.validate(trade);
 		
 		assertTrue(violations.isEmpty());
+	}
+	
+	@Test
+	void tradeFields_shouldNotBeNull() {
+		trade.setAccount(null);
+		trade.setType(null);
+		trade.setBuy_quantity(null);
+		
+		Set<ConstraintViolation<Trade>> violations = validator.validate(trade);
+		
+		assertFalse(violations.isEmpty());
+		assertEquals(3, violations.size());
 	}
 	
 	@Test
@@ -109,6 +123,60 @@ public class TradeTest {
 		
 		assertFalse(violations.isEmpty());
 		assertEquals(1, violations.size());
+	}
+	
+	@Test
+	void tradeType_ShouldThrowValidationError_WhenTooLong() {
+		trade.setAccount("AccountTest");
+		trade.setType("a".repeat(256));
+		trade.setBuy_quantity(1.0);	
+		
+		Set<ConstraintViolation<Trade>> violations = validator.validate(trade);
+		
+		assertFalse(violations.isEmpty());
+		assertEquals(1, violations.size());
+	}
+	
+	@Test
+	void tradeBuyQuantity_ShouldAllowExtremeValues() {
+		trade.setAccount("AccountTest");
+		trade.setType("TypeTest");
+		trade.setBuy_quantity(Double.MAX_VALUE);	
+		
+		Set<ConstraintViolation<Trade>> violations = validator.validate(trade);
+		
+		assertTrue(violations.isEmpty());
+	}
+	
+	@Test
+	void whenCreateTradeWithAllFields_thenCorrect () {
+		trade.setTrade_id(1);
+		trade.setAccount("AccountTest"); 
+		trade.setType("TypeTest"); 
+		trade.setBuy_quantity(2.0);
+		trade.setSell_quantity(3.0); 
+		trade.setBuy_price(100.0); 
+		trade.setSell_price(150.0);
+		trade.setTrade_date(new Timestamp(System.currentTimeMillis())); 
+		trade.setSecurity("SecurityTest"); 
+		trade.setStatus("StatusTest");
+		trade.setTrader("TraderTest");
+		trade.setBenchmark("BenchmarkTest");
+		trade.setBook("BookTest");
+		trade.setCreation_name("CreatorTest"); 
+		trade.setCreation_date(new Timestamp(System.currentTimeMillis())); 
+		trade.setRevision_name("RevisorTest"); 
+		trade.setRevision_date(new Timestamp(System.currentTimeMillis())); 
+		trade.setDeal_name("DealNameTest"); 
+		trade.setDeal_type("DealTypeTest"); 
+		trade.setSourcelist_id("SourceListIdTest"); 
+		trade.setSide("SideTest");
+
+	    assertNotNull(trade);
+	    assertEquals("AccountTest", trade.getAccount());
+	    assertEquals("TypeTest", trade.getType());
+	    assertEquals(2.0, trade.getBuy_quantity());
+	    assertEquals(3.0, trade.getSell_quantity());
 	}
 	
 }

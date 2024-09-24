@@ -9,15 +9,13 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import com.nnk.springboot.services.UserDetailsServiceImpl;
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
-	private final UserDetailsServiceImpl userDetailsService;
+	private final CustomUserDetailsService userDetailsService;
 
-	public SecurityConfig(UserDetailsServiceImpl userDetailsService) {
+	public SecurityConfig(CustomUserDetailsService userDetailsService) {
 		this.userDetailsService = userDetailsService;
 	}
 
@@ -38,7 +36,7 @@ public class SecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.authorizeHttpRequests((requests) -> {
 				// Accès public
-				requests.requestMatchers("/login", "/", "/css/**").permitAll();
+				requests.requestMatchers("/login", "/home", "/css/**").permitAll();
 				// Accès restreint, rôle admin uniquement
 				requests.requestMatchers("/user/**").hasRole("ADMIN");
 				// Demande d'authentification pour les autres requêtes

@@ -38,6 +38,21 @@ public class RatingTest {
 		assertTrue(violations.isEmpty());
 	}
 	
+	
+	@Test
+	void ratingFields_ShouldThrowValidationError_WhenMandatoryFieldsAreNull() {
+		rating.setMoodys_rating(null);
+		rating.setSandprating(null);
+		rating.setFitch_rating(null);
+		rating.setOrder_number(null);
+		
+		Set<ConstraintViolation<Rating>> violations = validator.validate(rating);
+		
+		assertFalse(violations.isEmpty());
+		assertEquals(4, violations.size());
+	}
+	
+	
 	@Test
 	void ratingMoodys_shouldThrowValidationError_whenEmpty() {
 		rating.setMoodys_rating("");
@@ -114,6 +129,44 @@ public class RatingTest {
 		
 		assertFalse(violations.isEmpty());
 		assertEquals(1, violations.size());
+	}
+	
+	@Test
+	void ratingSAndPRating_ShouldThrowValidationError_WhenTooLong() {
+		rating.setMoodys_rating("MoodysRating");
+		rating.setSandprating("a".repeat(256));
+		rating.setFitch_rating("FitchRating");
+		rating.setOrder_number(1);
+		
+		Set<ConstraintViolation<Rating>> violations = validator.validate(rating);
+		
+		assertFalse(violations.isEmpty());
+		assertEquals(1, violations.size());
+	}
+	
+	@Test
+	void ratingFitch_ShouldThrowValidationError_WhenTooLong() {
+		rating.setMoodys_rating("MoodysRating");
+		rating.setSandprating("SandPRating");
+		rating.setFitch_rating("a".repeat(256));
+		rating.setOrder_number(1);
+		
+		Set<ConstraintViolation<Rating>> violations = validator.validate(rating);
+		
+		assertFalse(violations.isEmpty());
+		assertEquals(1, violations.size());
+	}
+	
+	@Test
+	void ratingOderNumber_ShouldAllowLargeValues() {
+		rating.setMoodys_rating("MoodysRating");
+		rating.setSandprating("SandPRating");
+		rating.setFitch_rating("FitchRating");
+		rating.setOrder_number(Integer.MAX_VALUE);
+		
+		Set<ConstraintViolation<Rating>> violations = validator.validate(rating);
+		
+		assertTrue(violations.isEmpty());
 	}
 
 }
