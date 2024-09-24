@@ -106,7 +106,12 @@ public class RatingController {
 	// Find Rating by Id and delete the Rating, return to Rating list
 	@GetMapping("/rating/delete/{id}")
 	public String deleteRating(@PathVariable("id") Integer id, Model model) {
-		ratingService.deleteRating(id);
-		return "redirect:/rating/list";
+		try {
+			ratingService.deleteRating(id);
+			return "redirect:/rating/list";
+		} catch (RuntimeException e) {
+			model.addAttribute("errorMessage", e.getMessage());
+			return "redirect:/rating/list";
+		}
 	}
 }

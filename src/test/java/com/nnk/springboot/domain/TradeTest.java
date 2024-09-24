@@ -85,4 +85,30 @@ public class TradeTest {
 		assertEquals(1, violations.size());
 	}
 	
+	@Test
+	void tradeOptionalFields_ShouldAllowNullValues() {
+		trade.setAccount("AccountTest");
+		trade.setType("TypeTest");
+		trade.setBuy_quantity(1.0);
+		trade.setSell_quantity(null);
+		trade.setBuy_price(null);
+		trade.setSell_price(null);
+		
+		Set<ConstraintViolation<Trade>> violations = validator.validate(trade);
+		
+		assertTrue(violations.isEmpty());
+	}
+	
+	@Test
+	void tradeAccount_ShouldThrowValidationError_WhenTooLong() {
+		trade.setAccount("a".repeat(256));
+		trade.setType("TypeTest");
+		trade.setBuy_quantity(1.0);	
+		
+		Set<ConstraintViolation<Trade>> violations = validator.validate(trade);
+		
+		assertFalse(violations.isEmpty());
+		assertEquals(1, violations.size());
+	}
+	
 }

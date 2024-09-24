@@ -137,6 +137,15 @@ public class BidListControllerTest {
 	}
 	
 	@Test
+	public void testDeleteBidWithInvalidId() throws Exception {
+		Mockito.doThrow(new RuntimeException("Bid not found")).when(bidListService).deleteBidList(Mockito.anyInt());
+		
+		mockMvc.perform(get("/bidlist/delete/999"))
+		.andExpect(status().is3xxRedirection())
+		.andExpect(redirectedUrl("/bidlist/list"));
+	}
+	
+	@Test
 	public void testValidateBidWithValidationErrors() throws Exception {
 		mockMvc.perform(post("/bidlist/validate")
 				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
@@ -145,6 +154,18 @@ public class BidListControllerTest {
 				.param("bidquantity", "10d"))
 		.andExpect(status().isOk())
 		.andExpect(model().attributeHasFieldErrors("bidlist", "account"))
+		.andExpect(view().name("bidlist/add"));
+	}
+	
+	@Test
+	public void testValidateBidWithMultipleValidationErrors() throws Exception {
+		mockMvc.perform(post("/bidlist/validate")
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param("account", "")
+				.param("type", "")
+				.param("bidquantity", "invalid"))
+		.andExpect(status().isOk())
+		.andExpect(model().attributeHasFieldErrors("bidlist", "account", "type", "bidquantity"))
 		.andExpect(view().name("bidlist/add"));
 	}
 

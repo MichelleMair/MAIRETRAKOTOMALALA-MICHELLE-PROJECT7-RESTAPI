@@ -54,4 +54,26 @@ public class CurvePointTest {
 		assertFalse(violations.isEmpty());
 		assertEquals(1, violations.size());
 	}
+	
+	@Test
+	void curvePointOptionalFields_ShouldAllowNullValues() {
+		curvePoint.setCurve_id(2);
+		curvePoint.setTerm(null);
+		curvePoint.setValue(null);
+		
+		Set<ConstraintViolation<CurvePoint>> violations = validator.validate(curvePoint);
+		
+		assertTrue(violations.isEmpty());
+	}
+	
+	@Test
+	void curvePointCurveId_SHouldThrowValidationError_WhenZero() {
+		curvePoint.setCurve_id(0);
+		
+		Set<ConstraintViolation<CurvePoint>> violations = validator.validate(curvePoint);
+		
+		assertFalse(violations.isEmpty());
+		assertEquals(1, violations.size());		
+		
+	}
 }

@@ -102,5 +102,18 @@ public class RatingTest {
 		assertFalse(violations.isEmpty());
 		assertEquals(1, violations.size());
 	}
+	
+	@Test
+	void ratingMoodys_ShouldThrowValidationError_WhenTooLong() {
+		rating.setMoodys_rating("a".repeat(256));
+		rating.setSandprating("SandPRating");
+		rating.setFitch_rating("FitchRating");
+		rating.setOrder_number(1);
+		
+		Set<ConstraintViolation<Rating>> violations = validator.validate(rating);
+		
+		assertFalse(violations.isEmpty());
+		assertEquals(1, violations.size());
+	}
 
 }

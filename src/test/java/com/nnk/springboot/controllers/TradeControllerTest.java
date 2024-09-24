@@ -2,6 +2,7 @@ package com.nnk.springboot.controllers;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -94,6 +95,18 @@ public class TradeControllerTest {
 		
 		verify(tradeService, times(1)).saveTrade(any(Trade.class));
 	}
+	
+	@Test
+	public void testValidateTradeWithMultipleErrors() throws Exception {
+		mockMvc.perform(post("/trade/validate")
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param("account", "")
+				.param("type", "")
+				.param("buy_quantity", "invalid"))
+		.andExpect(status().isOk())
+		.andExpect(model().attributeHasFieldErrors("trade", "account", "type", "buy_quantity"))
+		.andExpect(view().name("trade/add"));
+	}
 
 	@Test
 	public void testShowUpdateForm() throws Exception {
@@ -155,6 +168,14 @@ public class TradeControllerTest {
 				.andExpect(view().name("redirect:/trade/list"));
 
 		verify(tradeService).deleteTrade(1);
+	}
+	
+	@Test
+	public void testDeleteTradeWithInvalidId() throws Exception {
+		doThrow(new RuntimeException("Trade not found")).when(tradeService).deleteTrade(Mockito.anyInt());
+		
+		mockMvc.perform(get("/trade/delete/999")).andExpect(status().is3xxRedirection())
+		.andExpect(view().name("redirect:/trade/list"));
 	}
 
 }

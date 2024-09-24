@@ -30,6 +30,7 @@ public class UserTest {
 	void userFields_shouldNotBeNullOrEmpty() {
 		user.setUsername("Usertest");
 		user.setPassword("Password123!");
+		user.setRole("ADMIN");
 		
 		Set<ConstraintViolation<User>> violations = validator.validate(user);
 		
@@ -41,6 +42,7 @@ public class UserTest {
 	void userUsername_shouldThrowValidationError_whenEmpty() {
 		user.setUsername("");
 		user.setPassword("Password123!");
+		user.setRole("ADMIN");
 		
 		Set<ConstraintViolation<User>> violations = validator.validate(user);
 		
@@ -72,6 +74,7 @@ public class UserTest {
 	void userUsername_ShouldThrowValidationError_WhenTooLong() {
 		user.setUsername("a".repeat(300));
 		user.setPassword("Password123!");
+		user.setRole("ADMIN");
 		
 		Set<ConstraintViolation<User>> violations = validator.validate(user);	
 		
@@ -80,4 +83,26 @@ public class UserTest {
 		assertTrue(violations.stream().anyMatch(v -> v.getMessage().equals("Username cannot be longer than 255 characters")));
 	}
 	
+	@Test
+	void userPassword_ShouldThrowValidationError_WhenInvalidLength() {
+		user.setUsername("Usertest");
+		user.setPassword("short");
+		
+		Set<ConstraintViolation<User>> violations = validator.validate(user);	
+		
+		assertFalse(violations.isEmpty());
+	}
+	
+	@Test
+	void userFullname_ShouldAllowNullValue() {
+		user.setUsername("Usertest");
+		user.setPassword("Password123!");
+		user.setRole("ADMIN");
+		user.setFullname(null);
+		
+		Set<ConstraintViolation<User>> violations = validator.validate(user);
+		
+		assertTrue(violations.isEmpty());
+	}
+
 }

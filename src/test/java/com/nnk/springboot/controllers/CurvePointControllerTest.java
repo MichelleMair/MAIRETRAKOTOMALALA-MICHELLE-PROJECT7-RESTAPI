@@ -129,12 +129,32 @@ public class CurvePointControllerTest {
 	}
 	
 	@Test
+	public void testDeleteCurvePointWithInvalidId() throws Exception {
+		Mockito.doThrow(new RuntimeException("Curve point not found")).when(curvePointService).deleteCurvePoint(Mockito.anyInt());
+		
+		mockMvc.perform(get("/curvepoint/delete/999")).andExpect(status().is3xxRedirection())
+		.andExpect(redirectedUrl("/curvepoint/list"));
+	}
+	
+	@Test
 	public void testUpdateCurvePointNotFound() throws Exception {
 		when(curvePointService.getCurvePointById(1)).thenReturn(Optional.empty());
 		
 		mockMvc.perform(get("/curvepoint/update/1"))
 		.andExpect(status().is3xxRedirection())
 		.andExpect(view().name("redirect:/curvepoint/list"));
+	}
+	
+	@Test
+	public void testValidateCurvePointWithMultipleErrors() throws Exception {
+		mockMvc.perform(post("/curvepoint/validate")
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param("curve_id", "")
+				.param("term", "invalid")
+				.param("value", "invalid"))
+		.andExpect(status().isOk())
+		.andExpect(model().attributeHasFieldErrors("curvepoint", "curve_id", "term", "value"))
+		.andExpect(view().name("curvepoint/add"));
 	}
 
 }

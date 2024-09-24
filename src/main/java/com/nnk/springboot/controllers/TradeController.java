@@ -103,7 +103,12 @@ public class TradeController {
 	// Find Trade by Id and delete the Trade, return to Trade list
 	@GetMapping("/trade/delete/{id}")
 	public String deleteTrade(@PathVariable("id") Integer id, Model model) {
-		tradeService.deleteTrade(id);
-		return "redirect:/trade/list";
+		try {
+			tradeService.deleteTrade(id);
+			return "redirect:/trade/list";
+		} catch (RuntimeException e) {
+			model.addAttribute("errorMessage", e.getMessage());
+			return "redirect:/trade/list";
+		}
 	}
 }

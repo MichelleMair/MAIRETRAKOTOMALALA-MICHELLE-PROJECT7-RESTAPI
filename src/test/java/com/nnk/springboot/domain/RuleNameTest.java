@@ -68,4 +68,29 @@ public class RuleNameTest {
 		
 		assertTrue(violations.isEmpty());
 	}
+	
+	@Test
+	void ruleNameOptionalFields_ShouldAllowNullValues() {
+		ruleName.setName("Nametest");
+		ruleName.setDescription("Desctest");
+		ruleName.setJson(null);
+		ruleName.setTemplate(null);
+		ruleName.setSqlstr(null);
+		ruleName.setSqlpart(null);
+		
+		Set<ConstraintViolation<RuleName>> violations = validator.validate(ruleName);
+		
+		assertTrue(violations.isEmpty());
+	}
+	
+	@Test
+	void ruleNameName_ShouldThrowValidationError_WhenTooLong() {
+		ruleName.setName("a".repeat(256));
+		ruleName.setDescription("Desctest");
+		
+		Set<ConstraintViolation<RuleName>> violations = validator.validate(ruleName);
+		
+		assertFalse(violations.isEmpty());
+		assertEquals(1, violations.size());
+	}
 }

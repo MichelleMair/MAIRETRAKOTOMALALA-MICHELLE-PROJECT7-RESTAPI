@@ -37,7 +37,6 @@ public class BidList {
 	private Double askquantity;
 	private Double bid;
 	private Double ask;
-
 	private String benchmark;
 	private Timestamp bidlist_date;
 	private String commentary;

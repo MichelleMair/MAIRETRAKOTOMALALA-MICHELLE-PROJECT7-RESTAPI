@@ -2,6 +2,7 @@ package com.nnk.springboot.controllers;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -135,6 +136,15 @@ public class RuleNameControllerTest {
 		
 		verify(ruleNameService, times(1)).updateRuleName(Mockito.anyInt(), Mockito.any(RuleName.class));
 	}
+	
+	@Test
+	public void testUpdateRulenameWithInvalidId() throws Exception {
+		when(ruleNameService.getRuleNameById(Mockito.anyInt())).thenReturn(Optional.empty());
+		
+		mockMvc.perform(get("/rulename/update/999"))
+		.andExpect(status().is3xxRedirection())
+		.andExpect(view().name("redirect:/rulename/list"));
+	}
 
 	@Test
 	public void testDeleteRuleName() throws Exception {
@@ -148,6 +158,15 @@ public class RuleNameControllerTest {
 	@Test
 	public void testDeleteRulenameNotFound() throws Exception {
 		mockMvc.perform(get("/rulename/delete/99"))
+		.andExpect(status().is3xxRedirection())
+		.andExpect(view().name("redirect:/rulename/list"));
+	}
+	
+	@Test
+	public void testDeleteRuleNameWithInvalidId() throws Exception {
+		doThrow(new RuntimeException("Trade not found")).when(ruleNameService).deleteRuleName(Mockito.anyInt());
+		
+		mockMvc.perform(get("/rulename/delete/999"))
 		.andExpect(status().is3xxRedirection())
 		.andExpect(view().name("redirect:/rulename/list"));
 	}

@@ -99,7 +99,12 @@ public class RuleNameController {
 
 	@GetMapping("/rulename/delete/{id}")
 	public String deleteRuleName(@PathVariable("id") Integer id, Model model) {
-		ruleNameService.deleteRuleName(id);
-		return "redirect:/rulename/list";
+		try {
+			ruleNameService.deleteRuleName(id);
+			return "redirect:/rulename/list";
+		} catch (RuntimeException e) {
+			model.addAttribute("errorMessage", e.getMessage());
+			return "redirect:/rulename/list";
+		}
 	}
 }

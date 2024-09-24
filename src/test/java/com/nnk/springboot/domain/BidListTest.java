@@ -85,5 +85,22 @@ public class BidListTest {
 		assertFalse(violations.isEmpty());
 		assertEquals(1, violations.size());
 	}
+	
+	@Test
+	void bidListOptionalFields_ShouldAllowNullValues() {
+		bidList.setAccount("AccountTest");
+		bidList.setType("TypeTest");
+		bidList.setBidquantity(10.0);
+		bidList.setAskquantity(null);
+		bidList.setBid(null);
+		bidList.setAsk(null);
+		bidList.setBenchmark(null);
+		bidList.setCommentary(null);
+		
+		Set<ConstraintViolation<BidList>> violations = validator.validate(bidList);
+		
+		assertTrue(violations.isEmpty());
+	}
+	
 
 }

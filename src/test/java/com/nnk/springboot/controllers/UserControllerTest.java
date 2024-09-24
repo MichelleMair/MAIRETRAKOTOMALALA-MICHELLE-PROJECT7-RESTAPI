@@ -2,6 +2,8 @@ package com.nnk.springboot.controllers;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -155,6 +157,18 @@ public class UserControllerTest {
 		
 		verify(userService, times(1)).updateUser(Mockito.anyInt(), Mockito.any(User.class));
 	}
+	
+	@Test
+	public void testUpdateUserWithInvalidId() throws Exception {
+		lenient().when(userService.getUserById(Mockito.anyInt())).thenReturn(Optional.empty());
+		
+		mockMvc.perform(post("/user/update/999")
+				.param("username", "user")
+				.param("password", "Password@2024")
+				.param("role", "USER"))
+		.andExpect(status().is3xxRedirection())
+		.andExpect(view().name("redirect:/user/list"));
+	}
 
 	@Test
 	public void testDeleteUser() throws Exception {
@@ -162,6 +176,14 @@ public class UserControllerTest {
 				.andExpect(view().name("redirect:/user/list"));
 
 		verify(userService).deleteUserById(1);
+	}
+	
+	@Test
+	public void testDeleteUserWithInvalidId() throws Exception {
+		doThrow(new RuntimeException("User not found")).when(userService).deleteUserById(Mockito.anyInt());
+		
+		mockMvc.perform(get("/user/delete/999")).andExpect(status().is3xxRedirection())
+		.andExpect(view().name("redirect:/user/list"));
 	}
 
 }

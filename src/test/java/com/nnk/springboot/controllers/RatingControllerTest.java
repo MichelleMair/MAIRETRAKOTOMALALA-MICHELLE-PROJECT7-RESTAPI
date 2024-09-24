@@ -9,10 +9,12 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -97,6 +99,15 @@ public class RatingControllerTest {
 		
 		verify(ratingService, times(1)).updateRating(Mockito.anyInt(), Mockito.any(Rating.class));
 	}
+	
+	@Test
+	public void testUpdateRatingWithInvalidId() throws Exception {
+		when(ratingService.getRatingById(Mockito.anyInt())).thenReturn(Optional.empty());
+		
+		mockMvc.perform(get("/rating/update/999"))
+		.andExpect(status().is3xxRedirection())
+		.andExpect(view().name("redirect:/rating/list"));
+	}
 
 	@Test
 	public void testAddNewRating() {
@@ -144,6 +155,15 @@ public class RatingControllerTest {
 		.andExpect(status().isOk())
 		.andExpect(model().attributeHasFieldErrors("rating", "moodys_rating"))
 		.andExpect(view().name("rating/add"));
+	}
+	
+	@Test
+	public void testDeleteRatingWithInvalideId() throws Exception {
+		Mockito.doThrow(new RuntimeException("Rating not found")).when(ratingService).deleteRating(Mockito.anyInt());
+		
+		mockMvc.perform(get("/rating/delete/999"))
+		.andExpect(status().is3xxRedirection())
+		.andExpect(redirectedUrl("/rating/list"));
 	}
 
 }

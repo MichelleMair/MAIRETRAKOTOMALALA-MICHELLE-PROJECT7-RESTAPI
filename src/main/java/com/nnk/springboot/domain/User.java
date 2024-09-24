@@ -30,6 +30,9 @@ public class User {
 	private String password;
 
 	private String fullname;
+	
+	@NotEmpty(message = "Role is mandatory")
+	@Column(name = "role", nullable = false, length= 255)
 	private String role;
 	
 	//GETTERS & SETTERS 
@@ -64,12 +67,9 @@ public class User {
 		this.role = role;
 	}
 	
-	public User() {
-		super();
-	}
 	public User(Integer id, @NotEmpty(message = "Username is mandatory") String username,
 			@NotNull(message = "Password is mandatory") @Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$", message = "The password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one digit, and one special character.") String password,
-			String fullname, String role) {
+			String fullname, @NotEmpty(message = "Role is mandatory") String role) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -79,12 +79,17 @@ public class User {
 	}
 	public User(@NotEmpty(message = "Username is mandatory") String username,
 			@NotNull(message = "Password is mandatory") @Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$", message = "The password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one digit, and one special character.") String password,
-			String fullname, String role) {
+			String fullname, @NotEmpty(message = "Role is mandatory") String role) {
 		super();
 		this.username = username;
 		this.password = password;
 		this.fullname = fullname;
 		this.role = role;
 	}
+	public User() {
+		super();
+	}
+	
+	
 	
 }
