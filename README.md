@@ -25,3 +25,14 @@
 ## Security
 1. Create user service to load user from  database and place in package com.nnk.springboot.services
 2. Add configuration class and place in package com.nnk.springboot.config
+
+##Connection id for tests purposes
+To test the application, please use the data.sql file (doc folder) to insert new users data into the database. 
+And to have access to the application (tests purposes only), please use the provided login informations below. 
+ADMIN
+username: admin
+password: newAdminPassword
+
+USER
+username: user
+password: newUserPassword

@@ -40,7 +40,8 @@ public class BidListService {
 					bidList.setBidquantity(updatedBidlist.getBidquantity());
 					return bidListRepository.save(bidList);
 				})
-				.orElseThrow(() -> new EntityNotFoundException("BidList with id " + bidlistId + " not found"));
+				.orElseThrow(() 
+						-> new EntityNotFoundException("BidList with id " + bidlistId + " not found"));
 	}
 
 	public void deleteBidList(Integer bidListId) {
